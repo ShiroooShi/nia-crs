@@ -39,6 +39,7 @@
                 <td class="headinput">
                     <input type="text" class="form-control" name="mobile_number" maxlength="14" required oninput="formatMobileNumber(this)">
                     <div class="invalid-feedback">Please enter exactly 11 digits.</div>
+
                 </td>
                 <td class="headinput">
                     <input type="text" class="form-control" name="tin" maxlength="15" required oninput="formatTIN(this)">
@@ -100,7 +101,7 @@
                     <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">
                         <label class="col-sm-8 col-form-label form-label">ID Number</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number">
+                            <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number" required>
                         </div>
                     </div>
                 </div>
@@ -119,11 +120,11 @@
                 <div class="form-group row align-items-center">
                     <div class="col-sm-8">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="authletter" value="1">
+                            <input type="checkbox" class="form-check-input" name="authletter" value="Yes">
                             <label class="form-check-label form-label">With Authorization Letter</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="spa" value="1">
+                            <input type="checkbox" class="form-check-input" name="spa" value="Yes">
                             <label class="form-check-label form-label">With Notarized Special Power of Attorney (SPA)</label>
                             <small class="form-text form-label text-muted">Suppliers with transaction above Php 50,000.00</small>
                         </div>
@@ -290,22 +291,21 @@
             $tax_type
         );
 
-
         if ($stmt->execute()) {
             $modalContent = "<p>Company Name: $company_name</p><p>ID Presented: $id_presented_full</p><p>Tax Type: $tax_type</p>";
 
             echo "<script>
-            document.getElementById('modalBody').innerHTML = '$modalContent';
-            $('#submissionModal').modal('show');
-            setTimeout(function() {
-                $('#submissionModal').modal('hide');
-            }, 2000);
-        </script>";
-        } else {
-            echo "Error: " . $stmt->error;
+                alert('Record added successfully!');
+                document.getElementById('modalBody').innerHTML = '$modalContent';
+                $('#submissionModal').modal('show');
+                setTimeout(function() {
+                    $('#submissionModal').modal('hide');
+                }, 2000);
+            </script>";
         }
     }
     ?>
+
 
     </div>
     </div>
