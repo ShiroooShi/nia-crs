@@ -259,8 +259,8 @@
         $email_address = htmlspecialchars($_POST['email_address']);
         $authorized_representative = htmlspecialchars($_POST['authorized_representative']);
         $tax_type = htmlspecialchars($_POST['tax_type']);
-        $authletter = isset($_POST['authletter']) ? 1 : NULL;
-        $spa = isset($_POST['spa']) ? 1 : NULL;
+        $authletter = isset($_POST['authletter']) ? 'Yes' : NULL;
+        $spa = isset($_POST['spa']) ? 'Yes' : NULL;
 
         // Get ID type and number
         $id_presented = htmlspecialchars($_POST['id_presented']);

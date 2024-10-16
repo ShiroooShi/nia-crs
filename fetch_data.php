@@ -36,4 +36,4 @@ foreach ($period as $dt) {
     }
 }
 
-$conn->close(); 
+$conn->close();
