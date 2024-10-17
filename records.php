@@ -179,11 +179,14 @@ function escape($string)
                                     data-owner="<?php echo escape($supplier['company_owner']); ?>"
                                     data-address="<?php echo escape($supplier['company_address']); ?>"
                                     data-tin="<?php echo escape($supplier['tin']); ?>"
+                                    data-tax-type="<?php echo escape($supplier['tax_type']); ?>"
                                     data-mobile="<?php echo escape($supplier['mobile_number']); ?>"
                                     data-telephone="<?php echo escape($supplier['telephone_number']); ?>"
                                     data-email="<?php echo escape($supplier['email_address']); ?>"
                                     data-representative="<?php echo escape($supplier['authorized_representative']); ?>"
-                                    data-id-presented="<?php echo escape($supplier['id_presented']); ?>">
+                                    data-auth="<?php echo $supplier['authletter'] === 'Yes' ? 'Yes' : ''; ?>"
+                                    data-id-presented="<?php echo escape($supplier['id_presented']); ?>"
+                                    data-spa="<?php echo $supplier['spa'] === 'Yes' ? 'Yes' : ''; ?>">
                                     Edit
                                 </button>
                                 <form action="delete.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
@@ -238,6 +241,14 @@ function escape($string)
                             <input type="text" class="form-control" id="editTIN" name="tin" required>
                         </div>
                         <div class="form-group">
+                            <label for="editTaxType">Tax Type</label>
+                            <select class="form-control" id="editTaxType" name="tax_type" required>
+                                <option value="VAT Registered">VAT Registered</option>
+                                <option value="Non-VAT Registered">Non-VAT Registered</option>
+                                <option value="VAT Exempted">VAT Exempted</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="editMobileNumber">Mobile Number</label>
                             <input type="text" class="form-control" id="editMobileNumber" name="mobile_number" required>
                         </div>
@@ -254,8 +265,16 @@ function escape($string)
                             <input type="text" class="form-control" id="editAuthorizedRepresentative" name="authorized_representative" required>
                         </div>
                         <div class="form-group">
+                            <label for="editAuthLetter">Auth Letter</label>
+                            <input type="text" class="form-control" id="editAuthLetter" name="auth_letter">
+                        </div>
+                        <div class="form-group">
                             <label for="editIDPresented">ID Presented</label>
                             <input type="text" class="form-control" id="editIDPresented" name="id_presented" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSPA">SPA</label>
+                            <input type="text" class="form-control" id="editSPA" name="spa">
                         </div>
                     </form>
                 </div>
@@ -312,11 +331,14 @@ function escape($string)
                 document.getElementById('editCompanyOwner').value = this.getAttribute('data-owner');
                 document.getElementById('editCompanyAddress').value = this.getAttribute('data-address');
                 document.getElementById('editTIN').value = this.getAttribute('data-tin');
+                document.getElementById('editTaxType').value = this.getAttribute('data-tax-type');
                 document.getElementById('editMobileNumber').value = this.getAttribute('data-mobile');
                 document.getElementById('editTelephoneNumber').value = this.getAttribute('data-telephone');
                 document.getElementById('editEmailAddress').value = this.getAttribute('data-email');
                 document.getElementById('editAuthorizedRepresentative').value = this.getAttribute('data-representative');
+                document.getElementById('editAuthLetter').value = this.getAttribute('data-auth');
                 document.getElementById('editIDPresented').value = this.getAttribute('data-id-presented');
+                document.getElementById('editSPA').value = this.getAttribute('data-spa');
 
                 // Update the modal title
                 document.getElementById('editingId').textContent = supplierId;
