@@ -12,7 +12,7 @@
             bottom: 10px;
             right: 10px;
             color: white;
-            font-size: 15px;
+            font-size: 12px;
             z-index: 1000;
             background-color: rgba(0,
                     0,
@@ -52,7 +52,7 @@
             </form>            
         </div>
     </div>
-    <div class="credit">Shiro / Adrian</div>
+    <div class="credit">Adrian "SHIRO"</div>
     <script>
         const pass_field = document.querySelector('.pass-key');
         const showBtn = document.querySelector('.show');
