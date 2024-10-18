@@ -157,20 +157,3 @@
   transform: translateY(-50%);
   cursor: pointer;
 }
-
-.credit {
-  position: absolute; /* Position relative to .bg-img */
-  bottom: 10px;
-  right: 10px;
-  color: white;
-  font-size: 50px;
-  z-index: 1000; /* Ensures it stays on top */
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Optional: semi-transparent background */
-  padding: 5px;
-  border-radius: 5px; /* Optional: rounded corners */
-}
