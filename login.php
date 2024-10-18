@@ -6,6 +6,22 @@
     <title>Admin Login</title>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        .credit {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+            font-size: 15px;
+            z-index: 1000;
+            background-color: rgba(0,
+                    0,
+                    0,
+                    0.5);
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,10 +49,10 @@
                 <div class="field">
                     <input type="submit" value="LOGIN">
                 </div>
-            </form>
-
+            </form>            
         </div>
     </div>
+    <div class="credit">© Shiro / Adrian</div>
     <script>
         const pass_field = document.querySelector('.pass-key');
         const showBtn = document.querySelector('.show');

@@ -9,24 +9,26 @@
     <link rel="stylesheet" href="form.css">
 </head>
 
-<body>
+<>
     <h2 class="mb-4" style="text-align: center;">SUPPLIER'S INFORMATION FORM</h2><br>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
         <table class="tborder">
             <tr class="tabheader">
-                <th class="tabhead">Company Name / Irrigator's Association</th>
-                <th class="tabhead">Company Owner</th>
+                <th class="tabhead">Company Name / Irrigator's Association *</th>
+                <th class="tabhead">Company Owner / IA President / Treasurer *</th>
                 <th class="tabhead">Company Address</th>
             </tr>
-            <td class="headinput">
-                <input type="text" class="form-control" name="company_name" required>
-            </td>
-            <td class="headinput">
-                <input type="text" class="form-control" name="company_owner" required>
-            </td>
-            <td class="headinput">
-                <input type="text" class="form-control" name="company_address" required>
-            </td>
+            <tr>
+                <td class="headinput">
+                    <input type="text" class="form-control" name="company_name" required>
+                </td>
+                <td class="headinput">
+                    <input type="text" class="form-control" name="company_owner" required>
+                </td>
+                <td class="headinput">
+                    <input type="text" class="form-control" name="company_address" required>
+                </td>
+            </tr>
         </table>
 
         <table class="tborder">
@@ -37,25 +39,23 @@
             </tr>
             <tr>
                 <td class="headinput">
-                    <input type="text" class="form-control" name="mobile_number" maxlength="14" required oninput="formatMobileNumber(this)">
-                    <div class="invalid-feedback">Please enter exactly 11 digits.</div>
-
+                    <input type="text" class="form-control" name="mobile_number" maxlength="14" oninput="formatMobileNumber(this)">
                 </td>
                 <td class="headinput">
-                    <input type="text" class="form-control" name="tin" maxlength="15" required oninput="formatTIN(this)">
+                    <input type="text" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
                 </td>
                 <td class="headinput">
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="VAT Registered" required>
+                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="VAT Registered">
                             <label class="form-check-label ftype">VAT Registered</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="Non-VAT Registered" required>
+                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="Non-VAT Registered">
                             <label class="form-check-label ftype">Non-VAT Registered</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="VAT Exempted" required>
+                            <input class="form-check-input rbutton" type="radio" name="tax_type" value="VAT Exempted">
                             <label class="form-check-label ftype">VAT Exempted</label>
                         </div>
                     </div>
@@ -69,43 +69,45 @@
                 <th class="tabhead">Telephone Number</th>
                 <th class="tabhead">ID Presented</th>
             </tr>
-            <td class="headinput">
-                <input type="email" class="form-control" name="email_address" required>
-            </td>
-            <td class="headinput">
-                <input type="number" class="form-control" name="telephone_number" maxlength="10">
-            </td>
-            <td>
-                <div class="form-group row">&nbsp;&nbsp;&nbsp;
-                    <select class="form-control col-sm-5" id="idSelect" name="id_presented" onchange="toggleOtherInput()">
-                        <option value="">Select ID...</option>
-                        <option value="Barangay Clearance">Barangay Clearance</option>
-                        <option value="Company ID">Company ID</option>
-                        <option value="Driver's License">Driver's License</option>
-                        <option value="GSIS ID">GSIS ID</option>
-                        <option value="NBI Clearance">NBI Clearance</option>
-                        <option value="PhilHealth ID">PhilHealth ID</option>
-                        <option value="Philippine Passport">Philippine Passport</option>
-                        <option value="Police Clearance">Police Clearance</option>
-                        <option value="Postal ID">Postal ID</option>
-                        <option value="PWD ID">PWD ID</option>
-                        <option value="School ID">School ID</option>
-                        <option value="Senior Citizen ID">Senior Citizen ID</option>
-                        <option value="SSS ID">SSS ID</option>
-                        <option value="Tax Identification Number (TIN) ID">Tax Identification Number (TIN) ID</option>
-                        <option value="Unified Multi-Purpose ID (UMID)">Unified Multi-Purpose ID (UMID)</option>
-                        <option value="Voter's ID">Voter's ID</option>
-                        <option value="others">Others (please specify)</option>
-                    </select>&nbsp;&nbsp;
-                    <input type="text" class="col-sm-5 form-control mt" id="otherIdInput" name="other_id_presented" style="display:none;" placeholder="Specify ID">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">
-                        <label class="col-sm-8 col-form-label form-label">ID Number</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number" required>
+            <tr>
+                <td class="headinput">
+                    <input type="email" class="form-control" name="email_address">
+                </td>
+                <td class="headinput">
+                    <input type="number" class="form-control" name="telephone_number" maxlength="10">
+                </td>
+                <td>
+                    <div class="form-group row">
+                        <select class="form-control col-sm-5" id="idSelect" name="id_presented" onchange="toggleOtherInput()">
+                            <option value="">Select ID...</option>
+                            <option value="Barangay Clearance">Barangay Clearance</option>
+                            <option value="Company ID">Company ID</option>
+                            <option value="Driver's License">Driver's License</option>
+                            <option value="GSIS ID">GSIS ID</option>
+                            <option value="NBI Clearance">NBI Clearance</option>
+                            <option value="PhilHealth ID">PhilHealth ID</option>
+                            <option value="Philippine Passport">Philippine Passport</option>
+                            <option value="Police Clearance">Police Clearance</option>
+                            <option value="Postal ID">Postal ID</option>
+                            <option value="PWD ID">PWD ID</option>
+                            <option value="School ID">School ID</option>
+                            <option value="Senior Citizen ID">Senior Citizen ID</option>
+                            <option value="SSS ID">SSS ID</option>
+                            <option value="Tax Identification Number (TIN) ID">Tax Identification Number (TIN) ID</option>
+                            <option value="Unified Multi-Purpose ID (UMID)">Unified Multi-Purpose ID (UMID)</option>
+                            <option value="Voter's ID">Voter's ID</option>
+                            <option value="others">Others (please specify)</option>
+                        </select>
+                        <input type="text" class="col-sm-5 form-control mt" id="otherIdInput" name="other_id_presented" style="display:none;" placeholder="Specify ID">
+                        <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">
+                            <label class="col-sm-8 col-form-label form-label">ID Number</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
+                </td>
+            </tr>
         </table>
 
         <table class="tborder">
@@ -113,24 +115,26 @@
                 <th class="tabhead">Company Authorized Representative</th>
                 <th class="tabhead">For Company Authorized Representative :</th>
             </tr>
-            <td class="headinput">
-                <input type="text" class="form-control" name="authorized_representative" required>
-            </td>
-            <td class="headinput">
-                <div class="form-group row align-items-center">
-                    <div class="col-sm-8">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="authletter" value="Yes">
-                            <label class="form-check-label form-label">With Authorization Letter</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="spa" value="Yes">
-                            <label class="form-check-label form-label">With Notarized Special Power of Attorney (SPA)</label>
-                            <small class="form-text form-label text-muted">Suppliers with transaction above Php 50,000.00</small>
+            <tr>
+                <td class="headinput">
+                    <input type="text" class="form-control" name="authorized_representative">
+                </td>
+                <td class="headinput">
+                    <div class="form-group row align-items-center">
+                        <div class="col-sm-8">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="authletter" value="Yes">
+                                <label class="form-check-label form-label">With Authorization Letter</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="spa" value="Yes">
+                                <label class="form-check-label form-label">With Notarized Special Power of Attorney (SPA)</label>
+                                <small class="form-text form-label text-muted">Suppliers with transaction above Php 50,000.00</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
+                </td>
+            </tr>
         </table>
 
         <div class="text-center">
@@ -140,6 +144,7 @@
     <form action="home.php" class="text-right" method="get">
         <button type="submit" class="btn btn-danger btn-custom-exit">▶&nbsp;EXIT</button>
     </form><br><br>
+
     <script>
         function toggleOtherInput() {
             const select = document.getElementById('idSelect');
@@ -159,7 +164,6 @@
             }
         }
 
-
         function validateForm() {
             const tinInput = document.querySelector('input[name="tin"]');
             const mobileInput = document.querySelector('input[name="mobile_number"]');
@@ -167,17 +171,17 @@
 
             let isValid = true;
 
-            // TIN validation
-            if (tinInput.value.replace(/-/g, '').length !== 12) {
+            // TIN validation only if filled
+            if (tinInput.value && tinInput.value.replace(/-/g, '').length !== 12) {
                 tinInput.classList.add('is-invalid');
                 isValid = false;
             } else {
                 tinInput.classList.remove('is-invalid');
             }
 
-            // Mobile Number validation
+            // Mobile Number validation only if filled
             const mobileValue = mobileInput.value.replace(/\s/g, ''); // Remove spaces for length check
-            if (mobileValue.length !== 11 || isNaN(mobileValue)) {
+            if (mobileValue && (mobileValue.length !== 11 || isNaN(mobileValue))) {
                 mobileInput.classList.add('is-invalid');
                 isValid = false;
             } else {
@@ -195,7 +199,6 @@
             return isValid;
         }
     </script>
-
 
     <script>
         function formatTIN(input) {
@@ -258,7 +261,7 @@
         $telephone_number = htmlspecialchars($_POST['telephone_number']);
         $email_address = htmlspecialchars($_POST['email_address']);
         $authorized_representative = htmlspecialchars($_POST['authorized_representative']);
-        $tax_type = htmlspecialchars($_POST['tax_type']);
+        $tax_type = isset($_POST['tax_type']) ? htmlspecialchars($_POST['tax_type']) : '';
         $authletter = isset($_POST['authletter']) ? 'Yes' : NULL;
         $spa = isset($_POST['spa']) ? 'Yes' : NULL;
 
@@ -267,32 +270,28 @@
         if ($id_presented === 'others') {
             $id_presented = htmlspecialchars($_POST['other_id_presented']);
         }
-        $id_number = htmlspecialchars($_POST['id_number']); // Get ID number
-
-        // Combine ID type and number
-        $id_presented_full = $id_presented . ' ' . $id_number;
 
         // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO sif_table (company_name, company_owner, company_address, tin, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, tax_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO sif_table (company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->bind_param(
-            "sssssssssssss",
+            "ssssssssssss",
             $company_name,
             $company_owner,
             $company_address,
             $tin,
+            $tax_type,
             $mobile_number,
             $telephone_number,
             $email_address,
             $authorized_representative,
             $authletter,
-            $id_presented_full,
-            $spa,
-            $tax_type,
+            $id_presented,
+            $spa
         );
 
         if ($stmt->execute()) {
-            $modalContent = "<p>Company Name: $company_name</p><p>ID Presented: $id_presented_full</p><p>Tax Type: $tax_type</p>";
+            $modalContent = "<p>Company Name: $company_name</p><p>ID Presented: $id_presented</p><p>Tax Type: $tax_type</p>";
 
             echo "<script>
                 alert('Record added successfully!');
@@ -302,17 +301,15 @@
                     $('#submissionModal').modal('hide');
                 }, 2000);
             </script>";
+        } else {
+            echo "<script>alert('Error adding record: " . $stmt->error . "');</script>";
         }
     }
     ?>
 
-
-    </div>
-    </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+    </body>
 
 </html>

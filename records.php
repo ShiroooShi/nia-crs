@@ -246,11 +246,12 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editTIN">TIN</label>
-                            <input type="text" class="form-control" id="editTIN" name="tin" required>
+                            <input type="text" class="form-control" id="editTIN" name="tin">
                         </div>
                         <div class="form-group">
                             <label for="editTaxType">Tax Type</label>
-                            <select class="form-control" id="editTaxType" name="tax_type" required>
+                            <select class="form-control" id="editTaxType" name="tax_type">
+                                <option value="">Select Tax Type</option> <!-- Added empty option -->
                                 <option value="VAT Registered">VAT Registered</option>
                                 <option value="Non-VAT Registered">Non-VAT Registered</option>
                                 <option value="VAT Exempted">VAT Exempted</option>
@@ -258,7 +259,7 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editMobileNumber">Mobile Number</label>
-                            <input type="text" class="form-control" id="editMobileNumber" name="mobile_number" required>
+                            <input type="text" class="form-control" id="editMobileNumber" name="mobile_number">
                         </div>
                         <div class="form-group">
                             <label for="editTelephoneNumber">Telephone Number</label>
@@ -266,11 +267,11 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editEmailAddress">Email Address</label>
-                            <input type="email" class="form-control" id="editEmailAddress" name="email_address" required>
+                            <input type="email" class="form-control" id="editEmailAddress" name="email_address">
                         </div>
                         <div class="form-group">
                             <label for="editAuthorizedRepresentative">Authorized Representative</label>
-                            <input type="text" class="form-control" id="editAuthorizedRepresentative" name="authorized_representative" required>
+                            <input type="text" class="form-control" id="editAuthorizedRepresentative" name="authorized_representative">
                         </div>
                         <div class="form-group">
                             <label for="editAuthLetter">Auth Letter</label>
@@ -281,7 +282,7 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editIDPresented">ID Presented</label>
-                            <input type="text" class="form-control" id="editIDPresented" name="id_presented" required>
+                            <input type="text" class="form-control" id="editIDPresented" name="id_presented">
                         </div>
                         <div class="form-group">
                             <label for="editSPA">SPA</label>
@@ -309,7 +310,8 @@ function escape($string)
                 document.getElementById('editCompanyOwner').value = this.getAttribute('data-owner');
                 document.getElementById('editCompanyAddress').value = this.getAttribute('data-address');
                 document.getElementById('editTIN').value = this.getAttribute('data-tin');
-                document.getElementById('editTaxType').value = this.getAttribute('data-tax-type');
+                const taxTypeValue = this.getAttribute('data-tax-type');
+                document.getElementById('editTaxType').value = taxTypeValue ? taxTypeValue : '';
                 document.getElementById('editMobileNumber').value = this.getAttribute('data-mobile');
                 document.getElementById('editTelephoneNumber').value = this.getAttribute('data-telephone');
                 document.getElementById('editEmailAddress').value = this.getAttribute('data-email');

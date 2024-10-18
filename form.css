@@ -22,8 +22,8 @@ h3 {
 
 table {
   border-collapse: collapse;
-  width: 80%;
-  margin: 20px auto;
+  width:  100%;
+  margin: 10px auto;
 }
 
 th,
@@ -73,16 +73,6 @@ th {
   color: black;
   border-color: black;
 }
-
-/* .btn-custom-exit {
-  width: 100px;
-  height: 40px;
-  border-radius: 20px;
-  font-family: "Cambria", sans-serif;
-  background-color: transparent;
-  color: black;
-  border-color: black;
-} */
 
 .form-label {
   font-family: Cambria, serif;
