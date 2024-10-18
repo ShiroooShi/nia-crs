@@ -1,5 +1,6 @@
 <?php
 // delete.php
+session_start(); // Start the session
 include 'suppliers_db.php'; // Include your database connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
@@ -11,8 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $stmt->bind_param("i", $idToDelete);
 
     if ($stmt->execute()) {
+        // Set the success message
+        $_SESSION['message'] = "Record deleted successfully!";
         // Redirect back to the list of records after deletion
-        header('Location: records.php?page=1'); // Replace with your actual file name
+        header("Location: records.php?page=1"); // Replace with your actual file name
         exit();
     } else {
         echo "Error deleting record: " . $conn->error;

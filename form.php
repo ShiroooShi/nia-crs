@@ -16,7 +16,7 @@
             <tr class="tabheader">
                 <th class="tabhead">Company Name / Irrigator's Association *</th>
                 <th class="tabhead">Company Owner / IA President / Treasurer *</th>
-                <th class="tabhead">Company Address</th>
+                <th class="tabhead">Company Address *</th>
             </tr>
             <tr>
                 <td class="headinput">
@@ -77,7 +77,7 @@
                     <input type="number" class="form-control" name="telephone_number" maxlength="10">
                 </td>
                 <td>
-                    <div class="form-group row">
+                    <div class="form-group row">&nbsp;&nbsp;&nbsp;&nbsp;
                         <select class="form-control col-sm-5" id="idSelect" name="id_presented" onchange="toggleOtherInput()">
                             <option value="">Select ID...</option>
                             <option value="Barangay Clearance">Barangay Clearance</option>
@@ -99,7 +99,7 @@
                             <option value="others">Others (please specify)</option>
                         </select>
                         <input type="text" class="col-sm-5 form-control mt" id="otherIdInput" name="other_id_presented" style="display:none;" placeholder="Specify ID">
-                        <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">
+                        <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;
                             <label class="col-sm-8 col-form-label form-label">ID Number</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number">

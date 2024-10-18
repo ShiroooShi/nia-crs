@@ -49,6 +49,9 @@ function escape($string)
     <div class="content">
         <br>
         <h1 class="header">SUPPLIER'S OVERALL RECORDS</h1>
+
+        <div id="message" class="alert" style="display:none; position: absolute; left: 50%; transform: translateX(-50%); top: 20%; z-index: 1000; width: 300px; text-align: center;"></div>
+
         <div class="input-group mb-1">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -58,6 +61,7 @@ function escape($string)
                 <a href="form.php" class="btn btn-info btn-custom-add-record">✚&nbsp;Add Record</a>
             </div>
         </div>
+
         <div class="table-responsive">
             <table class="table table-bordered supplier-table">
                 <thead>
@@ -70,13 +74,16 @@ function escape($string)
                         </th>
                         <th>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Company&nbsp;Name</span>
+                                <span>Company&nbsp;Name&nbsp;/&nbsp;</span>
+                                <span>Irrigator's&nbsp;Association </span>
                                 <button class="btn btn-link btn-sort" onclick="sortTable(1)">▾</button>
                             </div>
                         </th>
                         <th>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Company&nbsp;Owner</span>
+                                <span>Company&nbsp;Owner&nbsp;/&nbsp;</span>
+                                <span>IA&nbsp;President&nbsp;/&nbsp;</span>
+                                <span>Treasurer</span>
                                 <button class="btn btn-link btn-sort" onclick="sortTable(2)">▾</button>
                             </div>
                         </th>
@@ -167,19 +174,9 @@ function escape($string)
                             <td><?php echo escape($supplier['telephone_number']); ?></td>
                             <td><?php echo escape($supplier['email_address']); ?></td>
                             <td><?php echo escape($supplier['authorized_representative']); ?></td>
-                            <td>
-                                <?php
-                                $authletterValue = $supplier['authletter'] === 'Yes' ? 'Yes' : '';
-                                echo $authletterValue;
-                                ?>
-                            </td>
+                            <td><?php echo $supplier['authletter'] === 'Yes' ? 'Yes' : ''; ?></td>
                             <td><?php echo escape($supplier['id_presented']); ?></td>
-                            <td>
-                                <?php
-                                $spaValue = $supplier['spa'] === 'Yes' ? 'Yes' : '';
-                                echo $spaValue;
-                                ?>
-                            </td>
+                            <td><?php echo $supplier['spa'] === 'Yes' ? 'Yes' : ''; ?></td>
                             <td><?php echo (new DateTime($supplier['created_at']))->format('F d, Y H:i:s'); ?></td>
                             <td>
                                 <button class="btn btn-secondary btn-sm edit-btn"
@@ -199,7 +196,7 @@ function escape($string)
 
                                 <form action="delete.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
                                     <input type="hidden" name="id" value="<?php echo escape($supplier['id']); ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="showMessage('Record deleted successfully!', 'danger');">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -251,10 +248,10 @@ function escape($string)
                         <div class="form-group">
                             <label for="editTaxType">Tax Type</label>
                             <select class="form-control" id="editTaxType" name="tax_type">
-                                <option value="">Select Tax Type</option> <!-- Added empty option -->
+                                <option value="">Select Tax Type</option>
                                 <option value="VAT Registered">VAT Registered</option>
                                 <option value="Non-VAT Registered">Non-VAT Registered</option>
-                                <option value="VAT Exempted">VAT Exempted</option>
+                                <option value="Zero Rated">Zero Rated</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -277,74 +274,82 @@ function escape($string)
                             <label for="editAuthLetter">Auth Letter</label>
                             <select class="form-control" id="editAuthLetter" name="authletter">
                                 <option value="Yes">Yes</option>
-                                <option value="">No</option>
+                                <option value="No">No</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="editIDPresented">ID Presented</label>
-                            <input type="text" class="form-control" id="editIDPresented" name="id_presented">
+                            <label for="editIdPresented">ID Presented</label>
+                            <input type="text" class="form-control" id="editIdPresented" name="id_presented">
                         </div>
                         <div class="form-group">
                             <label for="editSPA">SPA</label>
                             <select class="form-control" id="editSPA" name="spa">
                                 <option value="Yes">Yes</option>
-                                <option value="">No</option>
+                                <option value="No">No</option>
                             </select>
                         </div>
+                        <button type="submit" class="btn btn-primary">Update Record</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" form="editForm" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.querySelectorAll('.edit-btn').forEach(button => {
+        // Show message function
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'alert alert-' + type; // Add appropriate Bootstrap class
+            messageDiv.style.display = 'block'; // Show the message
+
+            // Hide the message after 3 seconds
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Handle Edit button clicks
+        const editButtons = document.querySelectorAll('.edit-btn');
+        editButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const supplierId = this.getAttribute('data-id');
+                const supplierName = this.getAttribute('data-name');
+                const supplierOwner = this.getAttribute('data-owner');
+                const supplierAddress = this.getAttribute('data-address');
+                const supplierTin = this.getAttribute('data-tin');
+                const supplierTaxType = this.getAttribute('data-tax-type');
+                const supplierMobile = this.getAttribute('data-mobile');
+                const supplierTelephone = this.getAttribute('data-telephone');
+                const supplierEmail = this.getAttribute('data-email');
+                const supplierRepresentative = this.getAttribute('data-representative');
+                const supplierAuthLetter = this.getAttribute('data-authletter');
+                const supplierIdPresented = this.getAttribute('data-id-presented');
+                const supplierSPA = this.getAttribute('data-spa');
+
                 document.getElementById('editId').value = supplierId;
-                document.getElementById('editCompanyName').value = this.getAttribute('data-name');
-                document.getElementById('editCompanyOwner').value = this.getAttribute('data-owner');
-                document.getElementById('editCompanyAddress').value = this.getAttribute('data-address');
-                document.getElementById('editTIN').value = this.getAttribute('data-tin');
-                const taxTypeValue = this.getAttribute('data-tax-type');
-                document.getElementById('editTaxType').value = taxTypeValue ? taxTypeValue : '';
-                document.getElementById('editMobileNumber').value = this.getAttribute('data-mobile');
-                document.getElementById('editTelephoneNumber').value = this.getAttribute('data-telephone');
-                document.getElementById('editEmailAddress').value = this.getAttribute('data-email');
-                document.getElementById('editAuthorizedRepresentative').value = this.getAttribute('data-representative');
-                const authletterValue = this.getAttribute('data-authletter');
-                document.getElementById('editAuthLetter').value = authletterValue;
-                document.getElementById('editIDPresented').value = this.getAttribute('data-id-presented');
-                const spaValue = this.getAttribute('data-spa');
-                document.getElementById('editSPA').value = spaValue;
-
-                // Update the modal title
                 document.getElementById('editingId').textContent = supplierId;
+                document.getElementById('editCompanyName').value = supplierName;
+                document.getElementById('editCompanyOwner').value = supplierOwner;
+                document.getElementById('editCompanyAddress').value = supplierAddress;
+                document.getElementById('editTIN').value = supplierTin;
+                document.getElementById('editTaxType').value = supplierTaxType;
+                document.getElementById('editMobileNumber').value = supplierMobile;
+                document.getElementById('editTelephoneNumber').value = supplierTelephone;
+                document.getElementById('editEmailAddress').value = supplierEmail;
+                document.getElementById('editAuthorizedRepresentative').value = supplierRepresentative;
+                document.getElementById('editAuthLetter').value = supplierAuthLetter;
+                document.getElementById('editIdPresented').value = supplierIdPresented;
+                document.getElementById('editSPA').value = supplierSPA;
 
-                // Show the modal
                 $('#editModal').modal('show');
-            });
-        });
-
-        document.getElementById('search').addEventListener('keyup', function() {
-            const filter = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#supplierTableBody tr');
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let rowContainsFilter = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
-
-                row.style.display = rowContainsFilter ? '' : 'none';
             });
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

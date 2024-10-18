@@ -52,7 +52,7 @@
             </form>            
         </div>
     </div>
-    <div class="credit">© Shiro / Adrian</div>
+    <div class="credit">Shiro / Adrian</div>
     <script>
         const pass_field = document.querySelector('.pass-key');
         const showBtn = document.querySelector('.show');
