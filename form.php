@@ -276,7 +276,7 @@
         $stmt = $conn->prepare("INSERT INTO sif_table (company_name, company_owner, company_address, tin, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, tax_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->bind_param(
-            "ssssssssssss",
+            "sssssssssssss",
             $company_name,
             $company_owner,
             $company_address,
@@ -288,7 +288,7 @@
             $authletter,
             $id_presented_full,
             $spa,
-            $tax_type
+            $tax_type,
         );
 
         if ($stmt->execute()) {

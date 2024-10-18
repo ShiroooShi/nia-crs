@@ -17,7 +17,6 @@ function escape($string)
 {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -168,12 +167,22 @@ function escape($string)
                             <td><?php echo escape($supplier['telephone_number']); ?></td>
                             <td><?php echo escape($supplier['email_address']); ?></td>
                             <td><?php echo escape($supplier['authorized_representative']); ?></td>
-                            <td><?php echo $supplier['authletter'] === 'Yes' ? 'Yes' : ''; ?></td>
+                            <td>
+                                <?php
+                                $authletterValue = $supplier['authletter'] === 'Yes' ? 'Yes' : '';
+                                echo $authletterValue;
+                                ?>
+                            </td>
                             <td><?php echo escape($supplier['id_presented']); ?></td>
-                            <td><?php echo $supplier['spa'] === 'Yes' ? 'Yes' : ''; ?></td>
+                            <td>
+                                <?php
+                                $spaValue = $supplier['spa'] === 'Yes' ? 'Yes' : '';
+                                echo $spaValue;
+                                ?>
+                            </td>
                             <td><?php echo (new DateTime($supplier['created_at']))->format('F d, Y H:i:s'); ?></td>
                             <td>
-                                <button class="btn btn-warning btn-sm edit-btn"
+                                <button class="btn btn-secondary btn-sm edit-btn"
                                     data-id="<?php echo escape($supplier['id']); ?>"
                                     data-name="<?php echo escape($supplier['company_name']); ?>"
                                     data-owner="<?php echo escape($supplier['company_owner']); ?>"
@@ -184,11 +193,10 @@ function escape($string)
                                     data-telephone="<?php echo escape($supplier['telephone_number']); ?>"
                                     data-email="<?php echo escape($supplier['email_address']); ?>"
                                     data-representative="<?php echo escape($supplier['authorized_representative']); ?>"
-                                    data-auth="<?php echo $supplier['authletter'] === 'Yes' ? 'Yes' : ''; ?>"
+                                    data-authletter="<?php echo $supplier['authletter']; ?>"
                                     data-id-presented="<?php echo escape($supplier['id_presented']); ?>"
-                                    data-spa="<?php echo $supplier['spa'] === 'Yes' ? 'Yes' : ''; ?>">
-                                    Edit
-                                </button>
+                                    data-spa="<?php echo $supplier['spa']; ?>">Edit</button>
+
                                 <form action="delete.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
                                     <input type="hidden" name="id" value="<?php echo escape($supplier['id']); ?>">
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -216,7 +224,7 @@ function escape($string)
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editing ID <span id="editingId"></span></h5>
+                    <h5 class="modal-title" id="editModalLabel">EDITING ID <span id="editingId"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span>&times;</span>
                     </button>
@@ -266,7 +274,10 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editAuthLetter">Auth Letter</label>
-                            <input type="text" class="form-control" id="editAuthLetter" name="auth_letter">
+                            <select class="form-control" id="editAuthLetter" name="authletter">
+                                <option value="Yes">Yes</option>
+                                <option value="">No</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="editIDPresented">ID Presented</label>
@@ -274,7 +285,10 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editSPA">SPA</label>
-                            <input type="text" class="form-control" id="editSPA" name="spa">
+                            <select class="form-control" id="editSPA" name="spa">
+                                <option value="Yes">Yes</option>
+                                <option value="">No</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -287,42 +301,6 @@ function escape($string)
     </div>
 
     <script>
-        document.getElementById('search').addEventListener('keyup', function() {
-            const filter = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#supplierTableBody tr');
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let rowContainsFilter = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
-
-                row.style.display = rowContainsFilter ? '' : 'none';
-            });
-        });
-
-        function sortTable(columnIndex) {
-            const table = document.querySelector('.supplier-table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const isAscending = tbody.dataset.sortOrder === 'asc';
-
-            rows.sort((a, b) => {
-                const cellB = a.cells[columnIndex].innerText.trim();
-                const cellA = b.cells[columnIndex].innerText.trim();
-
-                return isAscending ?
-                    cellA.localeCompare(cellB, undefined, {
-                        numeric: true
-                    }) :
-                    cellB.localeCompare(cellA, undefined, {
-                        numeric: true
-                    });
-            });
-
-            tbody.dataset.sortOrder = isAscending ? 'desc' : 'asc';
-            tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
-        }
-
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const supplierId = this.getAttribute('data-id');
@@ -336,15 +314,29 @@ function escape($string)
                 document.getElementById('editTelephoneNumber').value = this.getAttribute('data-telephone');
                 document.getElementById('editEmailAddress').value = this.getAttribute('data-email');
                 document.getElementById('editAuthorizedRepresentative').value = this.getAttribute('data-representative');
-                document.getElementById('editAuthLetter').value = this.getAttribute('data-auth');
+                const authletterValue = this.getAttribute('data-authletter');
+                document.getElementById('editAuthLetter').value = authletterValue;
                 document.getElementById('editIDPresented').value = this.getAttribute('data-id-presented');
-                document.getElementById('editSPA').value = this.getAttribute('data-spa');
+                const spaValue = this.getAttribute('data-spa');
+                document.getElementById('editSPA').value = spaValue;
 
                 // Update the modal title
                 document.getElementById('editingId').textContent = supplierId;
 
                 // Show the modal
                 $('#editModal').modal('show');
+            });
+        });
+
+        document.getElementById('search').addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#supplierTableBody tr');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let rowContainsFilter = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
+
+                row.style.display = rowContainsFilter ? '' : 'none';
             });
         });
     </script>

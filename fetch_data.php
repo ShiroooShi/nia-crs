@@ -2,6 +2,17 @@
 // fetch_data.php
 include 'suppliers_db.php'; // Include your database connection
 
+// Handle deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $idToDelete = intval($_POST['id']);
+    $deleteSql = "DELETE FROM sif_table WHERE id = ?";
+    $stmt = $conn->prepare($deleteSql);
+    $stmt->bind_param("i", $idToDelete);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// Fetch data
 $sql = "SELECT id, company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, created_at FROM sif_table";
 $result = $conn->query($sql);
 $suppliers = [];

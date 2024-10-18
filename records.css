@@ -23,10 +23,19 @@ body {
   vertical-align: middle;
 }
 
+.sidebar h2,
+.sidebar a,
+.header,
+thead th,
+.table,
+.table td,
+.btn-custom-add-record {
+  font-family: "Cambria", serif;
+}
+
 .sidebar h2 {
   color: black;
   text-align: left;
-  font-family: "Cambria", sans-serif;
   font-weight: bold;
   padding: 20px 0;
   font-size: 27px;
@@ -35,7 +44,6 @@ body {
 .sidebar a {
   color: black;
   text-decoration: none;
-  font-family: "Cambria", sans-serif;
   font-size: 20px;
   background-color: transparent;
   border-color: transparent;
@@ -65,7 +73,6 @@ body {
 
 .header {
   font-size: 36px;
-  font-family: "Cambria", sans-serif;
   font-weight: bold;
   text-align: center;
   margin-bottom: 30px;
@@ -93,14 +100,12 @@ thead th {
   color: black;
   position: relative;
   padding: 20px;
-  font-family: "Cambria", sans-serif;
   text-transform: capitalize;
 }
 
 .table,
 .table td {
   border: none;
-  font-family: "Cambria", sans-serif;
 }
 
 .btn-sort {
@@ -117,5 +122,9 @@ thead th {
   width: 200px;
   height: 40px;
   border-radius: 10px;
-  font-family: "Cambria", sans-serif;
+}
+
+#editModal,
+#editModal * {
+  font-family: "Cambria", serif !important;
 }

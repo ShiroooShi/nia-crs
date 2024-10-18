@@ -14,21 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telephone_number = $_POST['telephone_number'];
     $email_address = $_POST['email_address'];
     $authorized_representative = $_POST['authorized_representative'];
+    $authLetter = isset($_POST['authletter']) ? $_POST['authletter'] : '';
     $id_presented = $_POST['id_presented'];
+    $spa = isset($_POST['spa']) ? $_POST['spa'] : '';
 
     // Prepare the SQL statement
     $sql = "UPDATE sif_table SET 
-            company_name = ?, 
-            company_owner = ?, 
-            company_address = ?, 
-            tin = ?, 
-            tax_type = ?, 
-            mobile_number = ?, 
-            telephone_number = ?, 
-            email_address = ?, 
-            authorized_representative = ?, 
-            id_presented = ? 
-            WHERE id = ?";
+        company_name = ?, 
+        company_owner = ?, 
+        company_address = ?, 
+        tin = ?, 
+        tax_type = ?, 
+        mobile_number = ?, 
+        telephone_number = ?, 
+        email_address = ?, 
+        authorized_representative = ?, 
+        authletter = ?,
+        id_presented = ?,
+        spa = ?
+        WHERE id = ?";
 
     // Create a prepared statement
     $stmt = $conn->prepare($sql);
@@ -38,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Bind parameters
     $stmt->bind_param(
-        "ssssssssssi",
+        "ssssssssssssi",  // Update the type string to include two additional 's' for authletter and spa
         $company_name,
         $company_owner,
         $company_address,
@@ -48,7 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $telephone_number,
         $email_address,
         $authorized_representative,
+        $authLetter,
         $id_presented,
+        $spa,
         $id
     );
 
@@ -60,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Error updating record: " . $stmt->error;
     }
-
     // Close the statement and connection
     $stmt->close();
     $conn->close();
