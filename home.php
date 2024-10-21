@@ -78,17 +78,10 @@ include 'fetch_data.php';
         const companyNames = suppliers.map(supplier => supplier.company_name);
         const companyCounts = {};
         companyNames.forEach(name => companyCounts[name] = (companyCounts[name] || 0) + 1);
-
-        // Create an array of [companyName, count] pairs
         const companyDataArray = Object.entries(companyCounts);
-
-        // Sort the array by count in descending order
         companyDataArray.sort((a, b) => b[1] - a[1]);
-
-        // Extract the sorted labels and data
         const companyLabels = companyDataArray.map(item => item[0]);
         const companyData = companyDataArray.map(item => item[1]);
-
         const ctx2 = document.getElementById('companyNamesChart').getContext('2d');
         const companyNamesChart = new Chart(ctx2, {
             type: 'bar',

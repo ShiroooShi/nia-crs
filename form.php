@@ -97,7 +97,7 @@
                         <option value="others">Others (please specify)</option>
                     </select>
                     <input type="text" class="col-sm-5 form-control mt" id="otherIdInput" name="other_id_presented" style="display:none;" placeholder="Specify ID">
-                    <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="col-sm-8 form-group row" id="idNumberField" style="display:none;">
                         <label class="col-sm-8 col-form-label form-label">ID Number</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="idNumberInput" name="id_number" placeholder="Enter ID Number">
@@ -139,88 +139,9 @@
         <button type="submit" class="btn btn-info btn-custom-add-record">✚&nbsp;Add Record</button>
     </div>
 </form><br>
-<form action="home.php" class="text-right" method="get">
+<form action="records.php" class="text-right" method="get">
     <button type="submit" class="btn btn-danger btn-custom-exit">▶&nbsp;EXIT</button>
 </form><br><br>
-
-<script>
-    function toggleOtherInput() {
-        const select = document.getElementById('idSelect');
-        const otherInput = document.getElementById('otherIdInput');
-        const idNumberField = document.getElementById('idNumberField');
-
-        if (select.value === 'others') {
-            otherInput.style.display = 'block';
-            otherInput.focus();
-            idNumberField.style.display = 'block';
-        } else if (select.value) {
-            otherInput.style.display = 'none';
-            idNumberField.style.display = 'block';
-        } else {
-            otherInput.style.display = 'none';
-            idNumberField.style.display = 'none';
-        }
-    }
-
-    function validateForm() {
-        const tinInput = document.querySelector('input[name="tin"]');
-        const mobileInput = document.querySelector('input[name="mobile_number"]');
-
-        let isValid = true;
-
-        // TIN validation only if filled
-        if (tinInput.value && tinInput.value.replace(/-/g, '').length !== 12) {
-            tinInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            tinInput.classList.remove('is-invalid');
-        }
-
-        // Mobile Number validation only if filled
-        const mobileValue = mobileInput.value.replace(/\s/g, ''); // Remove spaces for length check
-        if (mobileValue && (mobileValue.length !== 11 || isNaN(mobileValue))) {
-            mobileInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            mobileInput.classList.remove('is-invalid');
-        }
-
-        return isValid;
-    }
-</script>
-
-<script>
-    function formatTIN(input) {
-        let value = input.value.replace(/\D/g, '');
-
-        let formattedValue = '';
-        for (let i = 0; i < value.length; i += 3) {
-            if (i > 0) {
-                formattedValue += '-';
-            }
-            formattedValue += value.substring(i, i + 3);
-        }
-
-        input.value = formattedValue;
-
-        if (value.length > 12) {
-            input.setCustomValidity('Please enter exactly 12 digits.');
-        } else {
-            input.setCustomValidity('');
-        }
-    }
-
-    function formatMobileNumber(input) {
-        let value = input.value.replace(/\D/g, '').slice(0, 11);
-
-        let formattedValue = '';
-        if (value.length > 0) formattedValue += value.substring(0, 4);
-        if (value.length > 4) formattedValue += ' ' + value.substring(4, 7);
-        if (value.length > 7) formattedValue += ' ' + value.substring(7, 11);
-
-        input.value = formattedValue.trim();
-    }
-</script>
 
 <!-- Modal -->
 <div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -240,8 +161,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'suppliers_db.php';
-
-    // Collect and sanitize form data
+    
     $company_name = htmlspecialchars($_POST['company_name']);
     $company_owner = htmlspecialchars($_POST['company_owner']);
     $company_address = htmlspecialchars($_POST['company_address']);
@@ -254,13 +174,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $authletter = isset($_POST['authletter']) ? 'Yes' : NULL;
     $spa = isset($_POST['spa']) ? 'Yes' : NULL;
 
-    // Get ID type and number
+    // Get ID Type
     $id_presented = htmlspecialchars($_POST['id_presented']);
     if ($id_presented === 'others') {
         $id_presented = htmlspecialchars($_POST['other_id_presented']);
     }
     $id_number = htmlspecialchars($_POST['id_number']);
     $id_presented_full = $id_presented . ' ' . $id_number;
+    
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO sif_table (company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
@@ -297,6 +218,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<script>
+    function toggleOtherInput() {
+        const select = document.getElementById('idSelect');
+        const otherInput = document.getElementById('otherIdInput');
+        const idNumberField = document.getElementById('idNumberField');
+
+        if (select.value === 'others') {
+            otherInput.style.display = 'block';
+            otherInput.focus();
+            idNumberField.style.display = 'block';
+        } else if (select.value) {
+            otherInput.style.display = 'none';
+            idNumberField.style.display = 'block';
+        } else {
+            otherInput.style.display = 'none';
+            idNumberField.style.display = 'none';
+        }
+    }
+
+    function validateForm() {
+        const tinInput = document.querySelector('input[name="tin"]');
+        const mobileInput = document.querySelector('input[name="mobile_number"]');
+
+        let isValid = true;
+
+        // TIN validation if filled
+        if (tinInput.value && tinInput.value.replace(/-/g, '').length !== 12) {
+            tinInput.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            tinInput.classList.remove('is-invalid');
+        }
+
+        // Mobile Number validation if filled
+        const mobileValue = mobileInput.value.replace(/\s/g, '');
+        if (mobileValue && (mobileValue.length !== 11 || isNaN(mobileValue))) {
+            mobileInput.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            mobileInput.classList.remove('is-invalid');
+        }
+
+        return isValid;
+    }
+
+    function formatTIN(input) {
+        let value = input.value.replace(/\D/g, '');
+
+        let formattedValue = '';
+        for (let i = 0; i < value.length; i += 3) {
+            if (i > 0) {
+                formattedValue += '-';
+            }
+            formattedValue += value.substring(i, i + 3);
+        }
+
+        input.value = formattedValue;
+
+        if (value.length > 12) {
+            input.setCustomValidity('Please enter exactly 12 digits.');
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+
+    function formatMobileNumber(input) {
+        let value = input.value.replace(/\D/g, '').slice(0, 11);
+
+        let formattedValue = '';
+        if (value.length > 0) formattedValue += value.substring(0, 4);
+        if (value.length > 4) formattedValue += ' ' + value.substring(4, 7);
+        if (value.length > 7) formattedValue += ' ' + value.substring(7, 11);
+
+        input.value = formattedValue.trim();
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

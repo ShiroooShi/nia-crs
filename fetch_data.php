@@ -1,8 +1,7 @@
 <?php
-// fetch_data.php
-include 'suppliers_db.php'; // Include your database connection
+include 'suppliers_db.php';
 
-// Handle deletion
+// Handle Deletion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $idToDelete = intval($_POST['id']);
     $deleteSql = "DELETE FROM sif_table WHERE id = ?";
@@ -12,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $stmt->close();
 }
 
-// Fetch data
+// Fetch Data
 $sql = "SELECT id, company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, created_at FROM sif_table";
 $result = $conn->query($sql);
 $suppliers = [];
@@ -23,27 +22,26 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Prepare data for monthly records
+// Prepare Data for Monthly Records
 $monthlyCounts = [];
 foreach ($suppliers as $supplier) {
     $date = new DateTime($supplier['created_at']);
-    $monthYear = $date->format('F Y'); // Format as "Month Year"
+    $monthYear = $date->format('F Y');
     if (!isset($monthlyCounts[$monthYear])) {
         $monthlyCounts[$monthYear] = 0;
     }
     $monthlyCounts[$monthYear]++;
 }
 
-// Set start date to January 1 of the current year and end date to December 31
 $startDate = new DateTime('first day of January this year');
 $endDate = new DateTime('last day of December this year');
 $interval = new DateInterval('P1M');
-$period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day')); // Add a day to include December
+$period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
 
 foreach ($period as $dt) {
     $monthYear = $dt->format('F Y');
     if (!isset($monthlyCounts[$monthYear])) {
-        $monthlyCounts[$monthYear] = 0; // Set zero for months with no records
+        $monthlyCounts[$monthYear] = 0;
     }
 }
 

@@ -21,21 +21,21 @@ body {
 
 .sidebar h2 {
     color: black;
-    text-align: center; /* Centering the text and image */
+    text-align: center;
     font-family: "Cambria", sans-serif;
     font-weight: bold;
     padding: 20px 0;
-    font-size: 27px; /* Reduced font size for better fit */
+    font-size: 27px;
 }
 
 .sidebar img {
-    width: 100px; /* Adjust the logo size as needed */
+    width: 100px;
     vertical-align: middle;
 }
 
 .separator {
-    margin: 0 10px; /* Space around the slash */
-    font-size: 30px; /* Adjust size as needed */
+    margin: 0 10px;
+    font-size: 30px;
 }
 
 .sidebar a {

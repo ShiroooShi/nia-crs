@@ -1,8 +1,7 @@
 <?php
 include 'fetch_data.php';
 
-// Pagination logic
-$recordsPerPage = 10;
+$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 5; // Default to 10
 $totalRecords = count($suppliers);
 $totalPages = ceil($totalRecords / $recordsPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -12,7 +11,6 @@ $currentPage = max(1, min($currentPage, $totalPages)); // Ensure current page is
 $startRecord = ($currentPage - 1) * $recordsPerPage;
 $suppliersToShow = array_slice($suppliers, $startRecord, $recordsPerPage);
 
-// Function to escape output
 function escape($string)
 {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
@@ -32,7 +30,6 @@ function escape($string)
 </head>
 
 <body>
-
     <div class="sidebar">
         <div style="display: flex; flex-direction: row; align-items: center;">
             <img src="images/crs-logo.png" alt="Logo">
@@ -47,21 +44,35 @@ function escape($string)
     </div>
 
     <div class="content">
-        <br>
+        <br><br>
         <h1 class="header">CLAIMANT'S OVERALL RECORDS</h1>
-
+        <br><br>
         <div id="message" class="alert" style="display:none; position: absolute; left: 50%; transform: translateX(-50%); top: 20%; z-index: 1000; width: 300px; text-align: center;"></div>
 
-        <div class="input-group mb-1">
+        <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <span class="input-group-text form-control"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" id="search" class="col-sm-4 form-control" placeholder=" " aria-label="Search by Company Name...">&nbsp;&nbsp;
+            <input type="text" id="search" class="col-sm-3 form-control" placeholder=" " aria-label="Search by Company Name...">&nbsp;&nbsp;
             <div class="input-group-append">
                 <a href="form.php" class="btn btn-info btn-custom-add-record">✚&nbsp;Add Record</a>
             </div>
         </div>
-
+        <div class="input-group mb-1">
+            <label for="recordsPerPage" class="form-control col-sm-1">Show :</label>
+            <select id="recordsPerPage" class="form-control col-sm-1" onchange="changeRecordsPerPage()">
+                <option value="5" <?php echo $recordsPerPage == 5 ? 'selected' : ''; ?>>5</option>
+                <option value="10" <?php echo $recordsPerPage == 10 ? 'selected' : ''; ?>>10</option>
+                <option value="15" <?php echo $recordsPerPage == 15 ? 'selected' : ''; ?>>15</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>20</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>25</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>30</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>35</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>40</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>45</option>
+                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>50</option>
+            </select>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered supplier-table">
                 <thead>
@@ -251,7 +262,7 @@ function escape($string)
                                 <option value="">Select Tax Type</option>
                                 <option value="VAT Registered">VAT Registered</option>
                                 <option value="Non-VAT Registered">Non-VAT Registered</option>
-                                <option value="Zero Rated">Zero Rated</option>
+                                <option value="Vat Exempted">Vat Exempted</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -288,7 +299,7 @@ function escape($string)
                                 <option value="No">No</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Record</button>
+                        <button type="submit" class="btn btn-primary" onclick="showMessage('Record Updated successfully!', 'danger');">Update Record</button>
                     </form>
                 </div>
             </div>
@@ -300,16 +311,18 @@ function escape($string)
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = text;
-            messageDiv.className = 'alert alert-' + type; // Add appropriate Bootstrap class
-            messageDiv.style.display = 'block'; // Show the message
+            messageDiv.className = 'alert alert-' + type;
+            messageDiv.style.display = 'block';
 
-            // Hide the message after 3 seconds
             setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 3000);
+                messageDiv.style.opacity = 0;
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 500);
+            }, 5000);
         }
 
-        // Handle Edit button clicks
+        // Edit Button
         const editButtons = document.querySelectorAll('.edit-btn');
         editButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -346,6 +359,7 @@ function escape($string)
             });
         });
 
+        // Validation for TIN and Mobile Number
         function validateForm() {
             const tinInput = document.querySelector('input[name="tin"]');
             const mobileInput = document.querySelector('input[name="mobile_number"]');
@@ -371,6 +385,57 @@ function escape($string)
 
             return isValid;
         }
+
+        // Format for TIN and Mobile Number
+        function formatTIN(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i += 3) {
+                if (i > 0) {
+                    formattedValue += '-';
+                }
+                formattedValue += value.substring(i, i + 3);
+            }
+
+            input.value = formattedValue;
+
+            if (value.length > 12) {
+                input.setCustomValidity('Please enter exactly 12 digits.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+
+        function formatMobileNumber(input) {
+            let value = input.value.replace(/\D/g, '').slice(0, 11);
+
+            let formattedValue = '';
+            if (value.length > 0) formattedValue += value.substring(0, 4);
+            if (value.length > 4) formattedValue += ' ' + value.substring(4, 7);
+            if (value.length > 7) formattedValue += ' ' + value.substring(7, 11);
+
+            input.value = formattedValue.trim();
+        }
+
+        // Searching and Sorting table
+        document.getElementById('search').addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#supplierTableBody tr');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let rowContainsFilter = false;
+
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(filter)) {
+                        rowContainsFilter = true;
+                    }
+                });
+
+                row.style.display = rowContainsFilter ? '' : 'none';
+            });
+        });
 
         function sortTable(columnIndex) {
             const table = document.querySelector('.supplier-table');
@@ -408,39 +473,16 @@ function escape($string)
             });
         }
     </script>
-
     <script>
-        function formatTIN(input) {
-            let value = input.value.replace(/\D/g, '');
-
-            let formattedValue = '';
-            for (let i = 0; i < value.length; i += 3) {
-                if (i > 0) {
-                    formattedValue += '-';
-                }
-                formattedValue += value.substring(i, i + 3);
-            }
-
-            input.value = formattedValue;
-
-            if (value.length > 12) {
-                input.setCustomValidity('Please enter exactly 12 digits.');
-            } else {
-                input.setCustomValidity('');
-            }
-        }
-
-        function formatMobileNumber(input) {
-            let value = input.value.replace(/\D/g, '').slice(0, 11);
-
-            let formattedValue = '';
-            if (value.length > 0) formattedValue += value.substring(0, 4);
-            if (value.length > 4) formattedValue += ' ' + value.substring(4, 7);
-            if (value.length > 7) formattedValue += ' ' + value.substring(7, 11);
-
-            input.value = formattedValue.trim();
+        function changeRecordsPerPage() {
+            const recordsPerPage = document.getElementById('recordsPerPage').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('recordsPerPage', recordsPerPage);
+            url.searchParams.set('page', 1); // Reset to the first page on change
+            window.location.href = url.toString();
         }
     </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
