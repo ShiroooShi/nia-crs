@@ -31,14 +31,14 @@ include 'fetch_data.php';
         <h1 class="header">DASHBOARD</h1>
         <div class="row">
             <div class="col-md-6">
-                <canvas id="overallCountChart"></canvas>
+                <canvas id="companyNamesChart"></canvas>
             </div>
             <div class="col-md-6">
-                <canvas id="companyNamesChart"></canvas>
+                <canvas id="overallCountChart"></canvas>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-12">
                 <canvas id="recordsOverTimeChart"></canvas>
             </div>
         </div>

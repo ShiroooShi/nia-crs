@@ -132,31 +132,31 @@ function escape($string)
                         <th>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>Auth&nbsp;Letter</span>
-                                <button class="btn btn-link btn-sort" id="">▾</button>
-                            </div>
-                        </th>
-                        <th>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span>ID&nbsp;Presented</span>
                                 <button class="btn btn-link btn-sort" onclick="sortTable(10)">▾</button>
                             </div>
                         </th>
                         <th>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>SPA</span>
-                                <button class="btn btn-link btn-sort" id="">▾</button>
-                            </div>
-                        </th>
-                        <th>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span>Created&nbsp;At</span>
+                                <span>ID&nbsp;Presented</span>
                                 <button class="btn btn-link btn-sort" onclick="sortTable(11)">▾</button>
                             </div>
                         </th>
                         <th>
                             <div class="d-flex justify-content-between align-items-center">
+                                <span>SPA</span>
+                                <button class="btn btn-link btn-sort" onclick="sortTable(12)">▾</button>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Created&nbsp;At</span>
+                                <button class="btn btn-link btn-sort" onclick="sortTable(13)">▾</button>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="d-flex justify-content-between align-items-center">
                                 <span>Actions</span>
-                                <button class="btn btn-link btn-sort btn-action" id="">▾</button>
+                                <button class="btn btn-link btn-sort btn-action">▾</button>
                             </div>
                         </th>
                     </tr>
