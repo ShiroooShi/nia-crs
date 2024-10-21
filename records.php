@@ -243,7 +243,7 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editTIN">TIN</label>
-                            <input type="text" class="form-control" id="editTIN" name="tin">
+                            <input type="text" id="editTIN" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
                         </div>
                         <div class="form-group">
                             <label for="editTaxType">Tax Type</label>
@@ -256,7 +256,7 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editMobileNumber">Mobile Number</label>
-                            <input type="text" class="form-control" id="editMobileNumber" name="mobile_number">
+                            <input type="text" id="editMobileNumber" class="form-control" name="mobile_number" maxlength="14" oninput="formatMobileNumber(this)">
                         </div>
                         <div class="form-group">
                             <label for="editTelephoneNumber">Telephone Number</label>
@@ -348,6 +348,88 @@ function escape($string)
                 $('#editModal').modal('show');
             });
         });
+
+        function validateForm() {
+            const tinInput = document.querySelector('input[name="tin"]');
+            const mobileInput = document.querySelector('input[name="mobile_number"]');
+
+            let isValid = true;
+
+            // TIN validation
+            if (tinInput.value && tinInput.value.replace(/-/g, '').length !== 12) {
+                tinInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                tinInput.classList.remove('is-invalid');
+            }
+
+            // Mobile Number
+            const mobileValue = mobileInput.value.replace(/\s/g, ''); // Remove spaces for length check
+            if (mobileValue && (mobileValue.length !== 11 || isNaN(mobileValue))) {
+                mobileInput.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                mobileInput.classList.remove('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.supplier-table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // Determine the direction of sorting
+            const isAscending = tbody.dataset.sortDirection === 'asc';
+            tbody.dataset.sortDirection = isAscending ? 'desc' : 'asc';
+
+            rows.sort((rowA, rowB) => {
+                const cellB = rowA.children[columnIndex].innerText.toLowerCase();
+                const cellA = rowB.children[columnIndex].innerText.toLowerCase();
+
+                if (cellA < cellB) return isAscending ? -1 : 1;
+                if (cellA > cellB) return isAscending ? 1 : -1;
+                return 0;
+            });
+
+            // Remove existing rows and append sorted rows
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+
+    <script>
+        function formatTIN(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i += 3) {
+                if (i > 0) {
+                    formattedValue += '-';
+                }
+                formattedValue += value.substring(i, i + 3);
+            }
+
+            input.value = formattedValue;
+
+            if (value.length > 12) {
+                input.setCustomValidity('Please enter exactly 12 digits.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+
+        function formatMobileNumber(input) {
+            let value = input.value.replace(/\D/g, '').slice(0, 11);
+
+            let formattedValue = '';
+            if (value.length > 0) formattedValue += value.substring(0, 4);
+            if (value.length > 4) formattedValue += ' ' + value.substring(4, 7);
+            if (value.length > 7) formattedValue += ' ' + value.substring(7, 11);
+
+            input.value = formattedValue.trim();
+        }
     </script>
 
 </body>

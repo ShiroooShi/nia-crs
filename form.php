@@ -165,7 +165,6 @@
     function validateForm() {
         const tinInput = document.querySelector('input[name="tin"]');
         const mobileInput = document.querySelector('input[name="mobile_number"]');
-        const telephoneInput = document.querySelector('input[name="telephone_number"]');
 
         let isValid = true;
 
@@ -184,14 +183,6 @@
             isValid = false;
         } else {
             mobileInput.classList.remove('is-invalid');
-        }
-
-        // Telephone Number validation
-        if (telephoneInput.value.length > 10) {
-            telephoneInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            telephoneInput.classList.remove('is-invalid');
         }
 
         return isValid;
