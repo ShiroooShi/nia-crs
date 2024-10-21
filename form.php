@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="form.css">
 </head>
-<h2 class="mb-4" style="text-align: center;">SUPPLIER'S INFORMATION FORM</h2><br>
+<h2 class="mb-4" style="text-align: center;">CLAIMANT'S INFORMATION FORM</h2><br>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
     <table class="tborder">
         <tr class="tabheader">

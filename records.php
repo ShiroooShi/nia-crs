@@ -36,7 +36,7 @@ function escape($string)
     <div class="sidebar">
         <div style="display: flex; flex-direction: row; align-items: center;">
             <img src="images/crs-logo.png" alt="Logo">
-            <h2 class="text-left">│CLAIMANTS │RECORD │SYSTEM</h2>
+            <h2 class="text-left">│CLAIMANT`S │RECORD │SYSTEM</h2>
         </div>
         <br>
         <div class="list-group">
@@ -48,7 +48,7 @@ function escape($string)
 
     <div class="content">
         <br>
-        <h1 class="header">SUPPLIER'S OVERALL RECORDS</h1>
+        <h1 class="header">CLAIMANT'S OVERALL RECORDS</h1>
 
         <div id="message" class="alert" style="display:none; position: absolute; left: 50%; transform: translateX(-50%); top: 20%; z-index: 1000; width: 300px; text-align: center;"></div>
 
@@ -396,6 +396,19 @@ function escape($string)
             // Remove existing rows and append sorted rows
             tbody.innerHTML = '';
             rows.forEach(row => tbody.appendChild(row));
+
+            updateSortButtons(columnIndex, isAscending);
+        }
+
+        function updateSortButtons(activeIndex, isAscending) {
+            const sortButtons = document.querySelectorAll('.btn-sort');
+            sortButtons.forEach((button, index) => {
+                if (index === activeIndex) {
+                    button.innerHTML = isAscending ? '▾' : '▴'; // Show up/down arrow
+                } else {
+                    button.innerHTML = '▾'; // Reset other buttons
+                }
+            });
         }
     </script>
 

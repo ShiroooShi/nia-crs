@@ -17,7 +17,7 @@ include 'fetch_data.php';
     <div class="sidebar">
         <div style="display: flex; flex-direction: row; align-items: center;">
             <img src="images/crs-logo.png" alt="Logo">
-            <h2 class="text-left">│CLAIMANTS │RECORD │SYSTEM</h2>
+            <h2 class="text-left">│CLAIMANT`S │RECORD │SYSTEM</h2>
         </div>
         <br>
         <div class="list-group">
@@ -34,12 +34,12 @@ include 'fetch_data.php';
                 <canvas id="companyNamesChart"></canvas>
             </div>
             <div class="col-md-6">
-                <canvas id="overallCountChart"></canvas>
+                <canvas id="recordsOverTimeChart"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <canvas id="recordsOverTimeChart"></canvas>
+                <canvas id="overallCountChart"></canvas>
             </div>
         </div>
     </div>

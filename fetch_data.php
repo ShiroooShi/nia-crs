@@ -34,11 +34,11 @@ foreach ($suppliers as $supplier) {
     $monthlyCounts[$monthYear]++;
 }
 
-// Include remaining months until December 2024
-$currentDate = new DateTime();
-$endDate = new DateTime('2024-12-31');
+// Set start date to January 1 of the current year and end date to December 31
+$startDate = new DateTime('first day of January this year');
+$endDate = new DateTime('last day of December this year');
 $interval = new DateInterval('P1M');
-$period = new DatePeriod($currentDate, $interval, $endDate);
+$period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day')); // Add a day to include December
 
 foreach ($period as $dt) {
     $monthYear = $dt->format('F Y');
