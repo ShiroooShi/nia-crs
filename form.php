@@ -40,16 +40,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     <table class="tborder">
         <tr class="tabheader">
-            <th class="tabhead">Mobile Number</th>
             <th class="tabhead">Tax Identification Number(TIN)</th>
+            <th class="tabhead">Mobile Number</th>
             <th class="tabhead">Tax Type</th>
         </tr>
         <tr>
             <td class="headinput">
-                <input type="text" class="form-control" name="mobile_number" maxlength="14" oninput="formatMobileNumber(this)">
+                <input type="text" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
             </td>
             <td class="headinput">
-                <input type="text" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
+                <input type="text" class="form-control" name="mobile_number" maxlength="14" oninput="formatMobileNumber(this)">
             </td>
             <td class="headinput">
                 <div class="form-group">
