@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header('Location: home.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Validate credentials
+    if ($username === 'admin' && $password === 'admin123') {
+        $_SESSION['loggedin'] = true;
+        header('Location: home.php');
+        exit;
+    } else {
+        $error = 'Invalid username or password';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -12,12 +36,9 @@
             bottom: 10px;
             right: 10px;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
             z-index: 1000;
-            background-color: rgba(0,
-                    0,
-                    0,
-                    0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 5px;
             border-radius: 5px;
         }
@@ -29,83 +50,34 @@
         <div class="content">
             <img src="images/nia.png" alt="Logo" class="logo">
             <header>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admin Login</header><br>
-            <form id="loginForm">
+            <form id="loginForm" method="POST">
                 <div class="field">
                     <span class="fa fa-user" style="color: white"></span>
-                    <input class="uname_pass" type="text" id="username" placeholder="Username">
+                    <input class="uname_pass" type="text" id="username" name="username" placeholder="Username" required>
                 </div>
-                <div id="usernameMessage" style="color: red; display: none;">Incorrect username!</div>
                 <br>
                 <div class="field">
                     <span class="fa fa-lock" style="color: white"></span>
-                    <input type="password" id="password" class="pass-key uname_pass" required placeholder="Password">
+                    <input type="password" id="password" name="password" class="pass-key uname_pass" required placeholder="Password">
                     <span class="show"><i class="fas fa-eye" style="color: white"></i></span>
                 </div>
-
-                <div id="passwordMessage" style="color: red; display: none;">Incorrect password!</div>
                 <br>
-                <div id="bothMessage" style="color: red; display: none;">Username & Password are incorrect!</div>
-                <br>
+                <?php if ($error): ?>
+                    <div style="color: red;"><?= $error; ?></div>
+                <?php endif; ?>
                 <div class="field">
                     <input type="submit" value="LOGIN">
                 </div>
-            </form>            
+            </form>
         </div>
     </div>
     <div class="credit">Adrian "SHIRO"</div>
     <script>
         const pass_field = document.querySelector('.pass-key');
         const showBtn = document.querySelector('.show');
-        const loginForm = document.getElementById('loginForm');
-        const usernameMessage = document.getElementById('usernameMessage');
-        const passwordMessage = document.getElementById('passwordMessage');
-        const bothMessage = document.getElementById('bothMessage');
-
         showBtn.addEventListener('click', function() {
-            if (pass_field.type === "password") {
-                pass_field.type = "text";
-                showBtn.innerHTML = '<i class="fas fa-eye-slash" style="color: red"></i>';
-                showBtn.style.color = "#3498db";
-            } else {
-                pass_field.type = "password";
-                showBtn.innerHTML = '<i class="fas fa-eye" style="color: white"></i>';
-                showBtn.style.color = "#222";
-            }
-        });
-
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Clear previous messages
-            usernameMessage.style.display = 'none';
-            passwordMessage.style.display = 'none';
-            bothMessage.style.display = 'none';
-
-            // Check credentials
-            const isUsernameValid = username === 'admin';
-            const isPasswordValid = password === 'admin123';
-
-            if (!isUsernameValid && !isPasswordValid) {
-                bothMessage.style.display = 'block';
-                setTimeout(() => {
-                    bothMessage.style.display = 'none';
-                }, 2000);
-            } else if (!isUsernameValid) {
-                usernameMessage.style.display = 'block';
-                setTimeout(() => {
-                    usernameMessage.style.display = 'none';
-                }, 2000);
-            } else if (!isPasswordValid) {
-                passwordMessage.style.display = 'block';
-                setTimeout(() => {
-                    passwordMessage.style.display = 'none';
-                }, 2000);
-            } else {
-                window.location.href = 'home.php';
-            }
+            pass_field.type = pass_field.type === "password" ? "text" : "password";
+            showBtn.innerHTML = pass_field.type === "password" ? '<i class="fas fa-eye" style="color: white"></i>' : '<i class="fas fa-eye-slash" style="color: red"></i>';
         });
     </script>
 </body>

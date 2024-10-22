@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: login.php'); // Redirect kung hindi naka-login
+    exit;
+}
+
 include 'fetch_data.php';
 
 $recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 5; // Default to 10
@@ -40,7 +47,7 @@ function escape($string)
             <a href="home.php" class="list-group-item list-group-item-action">🏡&nbsp;&nbsp;&nbsp;Home</a>
             <a href="#" class="list-group-item list-group-item-action active">📋&nbsp;&nbsp;&nbsp;List of Records</a>
         </div>
-        <a href="login.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
+        <a href="logout.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
     </div>
 
     <div class="content">

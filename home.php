@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: login.php'); // Redirect kung hindi naka-login
+    exit;
+}
+
+// Include any data fetching you need
 include 'fetch_data.php';
 ?>
 <!DOCTYPE html>
@@ -24,7 +32,7 @@ include 'fetch_data.php';
             <a href="#" class="list-group-item list-group-item-action active">🏡&nbsp;&nbsp;&nbsp;Home</a>
             <a href="records.php" class="list-group-item list-group-item-action">📋&nbsp;&nbsp;&nbsp;List of Records</a>
         </div>
-        <a href="login.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
+        <a href="logout.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
     </div>
 
     <div class="content">
