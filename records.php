@@ -306,7 +306,7 @@ function escape($string)
                                 <option value="No">No</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="showMessage('Record Updated successfully!', 'danger');">Update Record</button>
+                        <button type="submit" class="btn btn-primary">Update Record</button>
                     </form>
                 </div>
             </div>
@@ -314,20 +314,6 @@ function escape($string)
     </div>
 
     <script>
-        // Show message function
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = 'alert alert-' + type;
-            messageDiv.style.display = 'block';
-
-            setTimeout(() => {
-                messageDiv.style.opacity = 0;
-                setTimeout(() => {
-                    messageDiv.style.display = 'none';
-                }, 500);
-            }, 5000);
-        }
 
         // Edit Button
         const editButtons = document.querySelectorAll('.edit-btn');
@@ -449,7 +435,6 @@ function escape($string)
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
 
-            // Determine the direction of sorting
             const isAscending = tbody.dataset.sortDirection === 'asc';
             tbody.dataset.sortDirection = isAscending ? 'desc' : 'asc';
 
@@ -462,7 +447,6 @@ function escape($string)
                 return 0;
             });
 
-            // Remove existing rows and append sorted rows
             tbody.innerHTML = '';
             rows.forEach(row => tbody.appendChild(row));
 
@@ -473,9 +457,9 @@ function escape($string)
             const sortButtons = document.querySelectorAll('.btn-sort');
             sortButtons.forEach((button, index) => {
                 if (index === activeIndex) {
-                    button.innerHTML = isAscending ? '▾' : '▴'; // Show up/down arrow
+                    button.innerHTML = isAscending ? '▾' : '▴';
                 } else {
-                    button.innerHTML = '▾'; // Reset other buttons
+                    button.innerHTML = '▾';
                 }
             });
         }
@@ -485,7 +469,7 @@ function escape($string)
             const recordsPerPage = document.getElementById('recordsPerPage').value;
             const url = new URL(window.location.href);
             url.searchParams.set('recordsPerPage', recordsPerPage);
-            url.searchParams.set('page', 1); // Reset to the first page on change
+            url.searchParams.set('page', 1);
             window.location.href = url.toString();
         }
     </script>

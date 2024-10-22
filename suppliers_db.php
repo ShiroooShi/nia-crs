@@ -1,9 +1,9 @@
 <?php
-// suppliers_db.php
-$servername = "localhost"; // or your server name
-$username = "root"; // your database username
-$password = ""; // your database password
-$dbname = "suppliers_db"; // your database name
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "suppliers_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
