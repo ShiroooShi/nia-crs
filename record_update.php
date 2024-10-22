@@ -1,10 +1,9 @@
 <?php
-// update.php
-session_start(); // Start the session
-include 'claimants_db.php'; // Ensure this file connects to your MySQL database
+
+session_start(); 
+include 'claimants_db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get data from the form
     $id = $_POST['id'];
     $company_name = $_POST['company_name'];
     $company_owner = $_POST['company_owner'];

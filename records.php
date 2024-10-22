@@ -2,18 +2,18 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php'); // Redirect kung hindi naka-login
+    header('Location: login.php');
     exit;
 }
 
 include 'fetch_data.php';
 
-$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 5; // Default to 10
+$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 5; 
 $totalRecords = count($suppliers);
 $totalPages = ceil($totalRecords / $recordsPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-$currentPage = max(1, min($currentPage, $totalPages)); // Ensure current page is within bounds
+$currentPage = max(1, min($currentPage, $totalPages)); 
 
 $startRecord = ($currentPage - 1) * $recordsPerPage;
 $suppliersToShow = array_slice($suppliers, $startRecord, $recordsPerPage);

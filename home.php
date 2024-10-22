@@ -2,11 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php'); // Redirect kung hindi naka-login
+    header('Location: login.php');
     exit;
 }
 
-// Include any data fetching you need
 include 'fetch_data.php';
 ?>
 <!DOCTYPE html>
