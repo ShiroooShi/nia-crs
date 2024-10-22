@@ -22,6 +22,24 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Fetch overall count of records
+$countSql = "SELECT COUNT(*) AS total FROM crs_table"; // Adjust table name if necessary
+$countResult = $conn->query($countSql);
+$countRow = $countResult->fetch_assoc();
+$overallCount = $countRow['total'];
+
+// Count records with Authorization Letter
+$autLetterSql = "SELECT COUNT(*) AS total FROM crs_table WHERE authletter = 'yes'"; // Adjust condition as needed
+$autLetterResult = $conn->query($autLetterSql);
+$autLetterRow = $autLetterResult->fetch_assoc();
+$autletterCount = $autLetterRow['total'];
+
+// Count records with Notarized SPA
+$spaSql = "SELECT COUNT(*) AS total FROM crs_table WHERE spa = 'yes'"; // Adjust condition as needed
+$spaResult = $conn->query($spaSql);
+$spaRow = $spaResult->fetch_assoc();
+$spaCount = $spaRow['total'];
+
 // Prepare Data for Monthly Records
 $monthlyCounts = [];
 foreach ($suppliers as $supplier) {
@@ -44,5 +62,3 @@ foreach ($period as $dt) {
         $monthlyCounts[$monthYear] = 0;
     }
 }
-
-$conn->close();

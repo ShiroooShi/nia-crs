@@ -6,7 +6,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-include 'fetch_data.php';
+include 'fetch_data.php'; // This file includes claimants_db.php and establishes $conn
+
+// Fetch overall count from the database
+$query = "SELECT COUNT(*) AS total FROM crs_table"; // Replace with your actual table name
+$result = $conn->query($query); // Use $conn
+$row = $result->fetch_assoc();
+$overallCount = $row['total'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +24,18 @@ include 'fetch_data.php';
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .card-title {
+            font-size: 20px;
+            font-family: "Cambria", sans-serif;
+            font-weight: 500;
+        }
+
+        .cart-text {
+            font-family: "Cambria", sans-serif;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,21 +52,61 @@ include 'fetch_data.php';
         <a href="logout.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
     </div>
 
-    <div class="content">
+    <div class="content"><br>
         <h1 class="header">DASHBOARD</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="companyNamesChart"></canvas>
+        <br>
+        <div class="row mb-20">
+            <div class="col-md-3 d-flex justify-content-center">
+                <div class="card border-default shadow" style="width: 80%;">
+                    <br>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Overall Records</h5>
+                        <h5 class="card-text" id="overallCount"><?php echo $overallCount; ?></h5>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <canvas id="recordsOverTimeChart"></canvas>
+            <div class="col-md-3 d-flex justify-content-center">
+                <div class="card border-default shadow" style="width: 80%;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">SAMPLE SAMPLE SAMPLE</h5>
+                        <h5 class="card-text">SAMPLE</h5>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-3 d-flex justify-content-center">
+                <div class="card border-default shadow" style="width: 80%;">
+                    <div class="card-body text-center">
+                        <br>
+                        <h5 class="card-title">With Authorized Letter</h5>
+                        <h5 class="card-text" id="autletterCount"><?php echo $autletterCount; ?></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center">
+                <div class="card border-default shadow" style="width: 80%;">
+                    <div class="card-body text-center">
+                        <br>
+                        <h5 class="card-title">With Notarized (SPA)</h5>
+                        <h5 class="card-text" id="spaCount"><?php echo $spaCount; ?></h5>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <!-- <div class="col-md-12">
+            <canvas id="companyNamesChart"></canvas>
         </div>
+        <div class="col-md-12">
+            <canvas id="recordsOverTimeChart"></canvas>
+        </div> -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <canvas id="overallCountChart"></canvas>
             </div>
+            <div class="col-md-6">
+                <canvas id="countAuthletterAndSPA"></canvas>
+            </div>
         </div>
+
     </div>
 
     <script>
@@ -58,7 +116,7 @@ include 'fetch_data.php';
         const monthLabels = Object.keys(monthlyCounts).sort((a, b) => new Date(a) - new Date(b));
         const monthData = monthLabels.map(label => monthlyCounts[label]);
 
-        // First Chart
+        // 1st Chart
         const ctx1 = document.getElementById('overallCountChart').getContext('2d');
         const overallCountChart = new Chart(ctx1, {
             type: 'bar',
@@ -81,65 +139,24 @@ include 'fetch_data.php';
             }
         });
 
-        // Second Chart
-        const companyNames = suppliers.map(supplier => supplier.company_name);
-        const companyCounts = {};
-        companyNames.forEach(name => companyCounts[name] = (companyCounts[name] || 0) + 1);
-        const companyDataArray = Object.entries(companyCounts);
-        companyDataArray.sort((a, b) => b[1] - a[1]);
-        const companyLabels = companyDataArray.map(item => item[0]);
-        const companyData = companyDataArray.map(item => item[1]);
-        const ctx2 = document.getElementById('companyNamesChart').getContext('2d');
-        const companyNamesChart = new Chart(ctx2, {
+        // 2nd Chart
+        const ctx2 = document.getElementById('countAuthletterAndSPA').getContext('2d');
+        const countAuthletterAndSPAChart = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: companyLabels,
+                labels: ['With Authorization Letter', 'With Notarized SPA'],
                 datasets: [{
-                    label: 'Total Suppliers for One Company',
-                    data: companyData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    label: 'Count',
+                    data: [<?php echo $autletterCount; ?>, <?php echo $spaCount; ?>],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
                     borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Third Chart
-        const createdAtCounts = {};
-        suppliers.forEach(supplier => {
-            const date = new Date(supplier.created_at);
-            const options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            const formattedDate = date.toLocaleDateString('en-US', options);
-            const label = `${supplier.company_name} - ${formattedDate}`;
-            createdAtCounts[label] = (createdAtCounts[label] || 0) + 1;
-        });
-
-        const recordLabels = Object.keys(createdAtCounts);
-        const recordData = Object.values(createdAtCounts);
-
-        const ctx3 = document.getElementById('recordsOverTimeChart').getContext('2d');
-        const recordsOverTimeChart = new Chart(ctx3, {
-            type: 'line',
-            data: {
-                labels: recordLabels,
-                datasets: [{
-                    label: 'Date of Added Records',
-                    data: recordData,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2,
-                    fill: true
                 }]
             },
             options: {

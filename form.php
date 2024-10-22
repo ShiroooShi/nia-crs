@@ -46,7 +46,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </tr>
         <tr>
             <td class="headinput">
-                <input type="text" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
+                <input type="text" class="form-control" name="tin" maxlength="17" oninput="formatTIN(this)">
             </td>
             <td class="headinput">
                 <input type="text" class="form-control" name="mobile_number" maxlength="14" oninput="formatMobileNumber(this)">
@@ -81,7 +81,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <input type="email" class="form-control" name="email_address">
             </td>
             <td class="headinput">
-                <input type="number" class="form-control" name="telephone_number" maxlength="10">
+                <input type="text" class="form-control" name="telephone_number">
             </td>
             <td>
                 <div class="form-group row">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -89,11 +89,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <option value="">Select ID...</option>
                         <option value="Barangay Clearance">Barangay Clearance</option>
                         <option value="Company ID">Company ID</option>
-                        <option value="Driver's License">Driver's License</option>
-                        <option value="GSIS ID">GSIS ID</option>
+                        <option value="Driver`s License">Driver`s License</option>
+                        <option value="GSIS ID">GSIS ID</option>                        
                         <option value="NBI Clearance">NBI Clearance</option>
                         <option value="PhilHealth ID">PhilHealth ID</option>
+                        <option value="Philippine Identification Card">Philippine Identification Card</option>
                         <option value="Philippine Passport">Philippine Passport</option>
+                        <option value="PRC ID">PRC ID</option>
                         <option value="Police Clearance">Police Clearance</option>
                         <option value="Postal ID">Postal ID</option>
                         <option value="PWD ID">PWD ID</option>
@@ -102,7 +104,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <option value="SSS ID">SSS ID</option>
                         <option value="Tax Identification Number (TIN) ID">Tax Identification Number (TIN) ID</option>
                         <option value="Unified Multi-Purpose ID (UMID)">Unified Multi-Purpose ID (UMID)</option>
-                        <option value="Voter's ID">Voter's ID</option>
+                        <option value="Voter`s ID">Voter`s ID</option>
                         <option value="others">Others (please specify)</option>
                     </select>
                     <input type="text" class="col-sm-5 form-control mt" id="otherIdInput" name="other_id_presented" style="display:none;" placeholder="Specify ID">
@@ -246,47 +248,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    function validateForm() {
-        const tinInput = document.querySelector('input[name="tin"]');
-        const mobileInput = document.querySelector('input[name="mobile_number"]');
-
-        let isValid = true;
-
-        // TIN validation if filled
-        if (tinInput.value && tinInput.value.replace(/-/g, '').length !== 12) {
-            tinInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            tinInput.classList.remove('is-invalid');
-        }
-
-        // Mobile Number validation if filled
-        const mobileValue = mobileInput.value.replace(/\s/g, '');
-        if (mobileValue && (mobileValue.length !== 11 || isNaN(mobileValue))) {
-            mobileInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            mobileInput.classList.remove('is-invalid');
-        }
-
-        return isValid;
-    }
-
     function formatTIN(input) {
-        let value = input.value.replace(/\D/g, '');
+        let value = input.value.replace(/\D/g, '').slice(0, 15); // Limitahan sa 15 digits
 
         let formattedValue = '';
-        for (let i = 0; i < value.length; i += 3) {
-            if (i > 0) {
-                formattedValue += '-';
-            }
-            formattedValue += value.substring(i, i + 3);
-        }
+        if (value.length > 0) formattedValue += value.substring(0, 3);
+        if (value.length > 3) formattedValue += '-' + value.substring(3, 6);
+        if (value.length > 6) formattedValue += '-' + value.substring(6, 9);
+        if (value.length > 9) formattedValue += '-' + value.substring(9, 14); // Huling 5 digits
 
-        input.value = formattedValue;
+        input.value = formattedValue.trim();
 
-        if (value.length > 12) {
-            input.setCustomValidity('Please enter exactly 12 digits.');
+        // Mag-set ng custom validity message
+        if (value.length < 9) {
+            input.setCustomValidity('Please enter eat least 9 digits.');
         } else {
             input.setCustomValidity('');
         }

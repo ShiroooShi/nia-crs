@@ -8,12 +8,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include 'fetch_data.php';
 
-$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 5; 
+$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 50;
 $totalRecords = count($suppliers);
 $totalPages = ceil($totalRecords / $recordsPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-$currentPage = max(1, min($currentPage, $totalPages)); 
+$currentPage = max(1, min($currentPage, $totalPages));
 
 $startRecord = ($currentPage - 1) * $recordsPerPage;
 $suppliersToShow = array_slice($suppliers, $startRecord, $recordsPerPage);
@@ -261,7 +261,7 @@ function escape($string)
                         </div>
                         <div class="form-group">
                             <label for="editTIN">TIN</label>
-                            <input type="text" id="editTIN" class="form-control" name="tin" maxlength="15" oninput="formatTIN(this)">
+                            <input type="text" id="editTIN" class="form-control" name="tin" maxlength="17" oninput="formatTIN(this)">
                         </div>
                         <div class="form-group">
                             <label for="editTaxType">Tax Type</label>
@@ -314,7 +314,6 @@ function escape($string)
     </div>
 
     <script>
-
         // Edit Button
         const editButtons = document.querySelectorAll('.edit-btn');
         editButtons.forEach(button => {
@@ -381,20 +380,19 @@ function escape($string)
 
         // Format for TIN and Mobile Number
         function formatTIN(input) {
-            let value = input.value.replace(/\D/g, '');
+            let value = input.value.replace(/\D/g, '').slice(0, 15); // Limitahan sa 15 digits
 
             let formattedValue = '';
-            for (let i = 0; i < value.length; i += 3) {
-                if (i > 0) {
-                    formattedValue += '-';
-                }
-                formattedValue += value.substring(i, i + 3);
-            }
+            if (value.length > 0) formattedValue += value.substring(0, 3);
+            if (value.length > 3) formattedValue += '-' + value.substring(3, 6);
+            if (value.length > 6) formattedValue += '-' + value.substring(6, 9);
+            if (value.length > 9) formattedValue += '-' + value.substring(9, 14); // Huling 5 digits
 
-            input.value = formattedValue;
+            input.value = formattedValue.trim();
 
-            if (value.length > 12) {
-                input.setCustomValidity('Please enter exactly 12 digits.');
+            // Mag-set ng custom validity message
+            if (value.length < 9) {
+                input.setCustomValidity('Please enter eat least 9 digits.');
             } else {
                 input.setCustomValidity('');
             }
@@ -479,4 +477,5 @@ function escape($string)
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>
