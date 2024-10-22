@@ -134,10 +134,12 @@ thead th {
   padding: 15px;
   transition: opacity 0.5s;
 }
+
 .alert-success {
   background-color: #d4edda;
   color: #155724;
 }
+
 .alert-danger {
   background-color: #f8d7da;
   color: #721c24;

@@ -169,7 +169,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include 'suppliers_db.php';
+    include 'claimants_db.php';
 
     $company_name = htmlspecialchars($_POST['company_name']);
     $company_owner = htmlspecialchars($_POST['company_owner']);
@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_presented_full = $id_presented . ' ' . $id_number;
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO sif_table (company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO crs_table (company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->bind_param(
         "ssssssssssss",

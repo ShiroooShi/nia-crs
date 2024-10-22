@@ -1,7 +1,7 @@
 <?php
 // update.php
 session_start(); // Start the session
-include 'suppliers_db.php'; // Ensure this file connects to your MySQL database
+include 'claimants_db.php'; // Ensure this file connects to your MySQL database
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get data from the form
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $spa = isset($_POST['spa']) ? $_POST['spa'] : '';
 
     // Prepare the SQL statement
-    $sql = "UPDATE sif_table SET 
+    $sql = "UPDATE crs_table SET 
         company_name = ?, 
         company_owner = ?, 
         company_address = ?, 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Bind parameters
     $stmt->bind_param(
-        "ssssssssssssi", // Update the type string to include two additional 's' for authletter and spa
+        "ssssssssssssi",
         $company_name,
         $company_owner,
         $company_address,
@@ -61,16 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Set the success message
         $_SESSION['message'] = "Record updated successfully!";
-        // Redirect to the list of records after successful update
-        header("Location: records.php"); // Replace with your actual page
+        header("Location: records.php");
         exit();
     } else {
         echo "Error updating record: " . $stmt->error;
     }
 
-    // Close the statement and connection
     $stmt->close();
     $conn->close();
 } else {

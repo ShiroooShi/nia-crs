@@ -1,10 +1,10 @@
 <?php
-include 'suppliers_db.php';
+include 'claimants_db.php';
 
 // Handle Deletion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $idToDelete = intval($_POST['id']);
-    $deleteSql = "DELETE FROM sif_table WHERE id = ?";
+    $deleteSql = "DELETE FROM crs_table WHERE id = ?";
     $stmt = $conn->prepare($deleteSql);
     $stmt->bind_param("i", $idToDelete);
     $stmt->execute();
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 }
 
 // Fetch Data
-$sql = "SELECT id, company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, created_at FROM sif_table";
+$sql = "SELECT id, company_name, company_owner, company_address, tin, tax_type, mobile_number, telephone_number, email_address, authorized_representative, authletter, id_presented, spa, created_at FROM crs_table";
 $result = $conn->query($sql);
 $suppliers = [];
 
