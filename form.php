@@ -90,7 +90,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <option value="Barangay Clearance">Barangay Clearance</option>
                         <option value="Company ID">Company ID</option>
                         <option value="Driver`s License">Driver`s License</option>
-                        <option value="GSIS ID">GSIS ID</option>                        
+                        <option value="Government Employee`s ID">Government Employee`s ID</option>     
+                        <option value="GSIS ID">GSIS ID</option>                     
                         <option value="NBI Clearance">NBI Clearance</option>
                         <option value="PhilHealth ID">PhilHealth ID</option>
                         <option value="Philippine Identification Card">Philippine Identification Card</option>
@@ -249,19 +250,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function formatTIN(input) {
-        let value = input.value.replace(/\D/g, '').slice(0, 15); // Limitahan sa 15 digits
+        let value = input.value.replace(/\D/g, '').slice(0, 15); 
 
         let formattedValue = '';
         if (value.length > 0) formattedValue += value.substring(0, 3);
         if (value.length > 3) formattedValue += '-' + value.substring(3, 6);
         if (value.length > 6) formattedValue += '-' + value.substring(6, 9);
-        if (value.length > 9) formattedValue += '-' + value.substring(9, 14); // Huling 5 digits
+        if (value.length > 9) formattedValue += '-' + value.substring(9, 14); 
 
         input.value = formattedValue.trim();
 
-        // Mag-set ng custom validity message
         if (value.length < 9) {
-            input.setCustomValidity('Please enter eat least 9 digits.');
+            input.setCustomValidity('Please enter at least 9 digits.');
         } else {
             input.setCustomValidity('');
         }

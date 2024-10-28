@@ -72,12 +72,22 @@ function escape($string)
                 <option value="10" <?php echo $recordsPerPage == 10 ? 'selected' : ''; ?>>10</option>
                 <option value="15" <?php echo $recordsPerPage == 15 ? 'selected' : ''; ?>>15</option>
                 <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>20</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>25</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>30</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>35</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>40</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>45</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>50</option>
+                <option value="25" <?php echo $recordsPerPage == 25 ? 'selected' : ''; ?>>25</option>
+                <option value="30" <?php echo $recordsPerPage == 30 ? 'selected' : ''; ?>>30</option>
+                <option value="35" <?php echo $recordsPerPage == 35 ? 'selected' : ''; ?>>35</option>
+                <option value="40" <?php echo $recordsPerPage == 40 ? 'selected' : ''; ?>>40</option>
+                <option value="45" <?php echo $recordsPerPage == 45 ? 'selected' : ''; ?>>45</option>
+                <option value="50" <?php echo $recordsPerPage == 50 ? 'selected' : ''; ?>>50</option>
+                <option value="55" <?php echo $recordsPerPage == 55 ? 'selected' : ''; ?>>55</option>
+                <option value="60" <?php echo $recordsPerPage == 60 ? 'selected' : ''; ?>>60</option>
+                <option value="65" <?php echo $recordsPerPage == 65 ? 'selected' : ''; ?>>65</option>
+                <option value="70" <?php echo $recordsPerPage == 70 ? 'selected' : ''; ?>>70</option>
+                <option value="75" <?php echo $recordsPerPage == 75 ? 'selected' : ''; ?>>75</option>
+                <option value="80" <?php echo $recordsPerPage == 80 ? 'selected' : ''; ?>>80</option>
+                <option value="85" <?php echo $recordsPerPage == 85 ? 'selected' : ''; ?>>85</option>
+                <option value="90" <?php echo $recordsPerPage == 90 ? 'selected' : ''; ?>>90</option>
+                <option value="95" <?php echo $recordsPerPage == 95 ? 'selected' : ''; ?>>95</option>
+                <option value="100" <?php echo $recordsPerPage == 100 ? 'selected' : ''; ?>>100</option>
             </select>
         </div>
         <div class="table-responsive">
@@ -183,7 +193,22 @@ function escape($string)
                     <?php foreach ($suppliersToShow as $supplier): ?>
                         <tr>
                             <td><?php echo escape($supplier['id']); ?></td>
-                            <td><?php echo escape($supplier['company_name']); ?></td>
+                            <td class="edit-btn" 
+                                data-id="<?php echo escape($supplier['id']); ?>"
+                                data-name="<?php echo escape($supplier['company_name']); ?>"
+                                data-owner="<?php echo escape($supplier['company_owner']); ?>"
+                                data-address="<?php echo escape($supplier['company_address']); ?>"
+                                data-tin="<?php echo escape($supplier['tin']); ?>"
+                                data-tax-type="<?php echo escape($supplier['tax_type']); ?>"
+                                data-mobile="<?php echo escape($supplier['mobile_number']); ?>"
+                                data-telephone="<?php echo escape($supplier['telephone_number']); ?>"
+                                data-email="<?php echo escape($supplier['email_address']); ?>"
+                                data-representative="<?php echo escape($supplier['authorized_representative']); ?>"
+                                data-authletter="<?php echo $supplier['authletter']; ?>"
+                                data-id-presented="<?php echo escape($supplier['id_presented']); ?>"
+                                data-spa="<?php echo $supplier['spa']; ?>" style="cursor: pointer; text-decoration: underline; color: blue;">
+                                <?php echo escape($supplier['company_name']); ?>
+                            </td>
                             <td><?php echo escape($supplier['company_owner']); ?></td>
                             <td><?php echo escape($supplier['company_address']); ?></td>
                             <td><?php echo escape($supplier['tin']); ?></td>
@@ -227,7 +252,7 @@ function escape($string)
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                     <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a class="page-link" href="?page=<?php echo $i; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
             </ul>
@@ -465,10 +490,8 @@ function escape($string)
     <script>
         function changeRecordsPerPage() {
             const recordsPerPage = document.getElementById('recordsPerPage').value;
-            const url = new URL(window.location.href);
-            url.searchParams.set('recordsPerPage', recordsPerPage);
-            url.searchParams.set('page', 1);
-            window.location.href = url.toString();
+            const currentPage = <?php echo $currentPage; ?>; // PHP variable to get current page
+            window.location.href = `?page=${currentPage}&recordsPerPage=${recordsPerPage}`;
         }
     </script>
 

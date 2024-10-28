@@ -56,38 +56,36 @@ $overallCount = $row['total'];
         <h1 class="header">DASHBOARD</h1>
         <br>
         <div class="row mb-20">
-            <div class="col-md-3 d-flex justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
                 <div class="card border-default shadow" style="width: 80%;">
                     <br>
                     <div class="card-body text-center">
                         <h5 class="card-title">Overall Records</h5>
-                        <h5 class="card-text" id="overallCount"><?php echo $overallCount; ?></h5>
+                        <h5 class="card-text" id="overallCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                            <?php echo $overallCount; ?><br><br>
+                        </h5>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex justify-content-center">
-                <div class="card border-default shadow" style="width: 80%;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">SAMPLE SAMPLE SAMPLE</h5>
-                        <h5 class="card-text">SAMPLE</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 d-flex justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
                 <div class="card border-default shadow" style="width: 80%;">
                     <div class="card-body text-center">
                         <br>
                         <h5 class="card-title">With Authorized Letter</h5>
-                        <h5 class="card-text" id="autletterCount"><?php echo $autletterCount; ?></h5>
+                        <h5 class="card-text" id="autletterCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                            <?php echo $autletterCount; ?><br><br>
+                        </h5>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
                 <div class="card border-default shadow" style="width: 80%;">
                     <div class="card-body text-center">
                         <br>
                         <h5 class="card-title">With Notarized (SPA)</h5>
-                        <h5 class="card-text" id="spaCount"><?php echo $spaCount; ?></h5>
+                        <h5 class="card-text" id="spaCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                            <?php echo $spaCount; ?><br><br>
+                        </h5>
                     </div>
                 </div>
             </div>
