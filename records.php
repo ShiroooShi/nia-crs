@@ -89,6 +89,9 @@ function escape($string)
                 <option value="95" <?php echo $recordsPerPage == 95 ? 'selected' : ''; ?>>95</option>
                 <option value="100" <?php echo $recordsPerPage == 100 ? 'selected' : ''; ?>>100</option>
             </select>
+            <div class="input-group-append ml-auto">
+                <button class="btn btn-danger" onclick="exportToPDF()">Export to PDF</button>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered supplier-table">
