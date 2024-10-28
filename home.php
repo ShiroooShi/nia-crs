@@ -6,11 +6,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-include 'fetch_data.php'; // This file includes claimants_db.php and establishes $conn
+include 'fetch_data.php'; 
 
-// Fetch overall count from the database
-$query = "SELECT COUNT(*) AS total FROM crs_table"; // Replace with your actual table name
-$result = $conn->query($query); // Use $conn
+$query = "SELECT COUNT(*) AS total FROM crs_table";
+$result = $conn->query($query);
 $row = $result->fetch_assoc();
 $overallCount = $row['total'];
 ?>
@@ -90,12 +89,6 @@ $overallCount = $row['total'];
                 </div>
             </div>
         </div><br>
-        <!-- <div class="col-md-12">
-            <canvas id="companyNamesChart"></canvas>
-        </div>
-        <div class="col-md-12">
-            <canvas id="recordsOverTimeChart"></canvas>
-        </div> -->
         <div class="row">
             <div class="col-md-6">
                 <canvas id="overallCountChart"></canvas>

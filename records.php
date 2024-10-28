@@ -193,7 +193,7 @@ function escape($string)
                     <?php foreach ($suppliersToShow as $supplier): ?>
                         <tr>
                             <td><?php echo escape($supplier['id']); ?></td>
-                            <td class="edit-btn" 
+                            <td class="edit-btn"
                                 data-id="<?php echo escape($supplier['id']); ?>"
                                 data-name="<?php echo escape($supplier['company_name']); ?>"
                                 data-owner="<?php echo escape($supplier['company_owner']); ?>"
@@ -405,17 +405,16 @@ function escape($string)
 
         // Format for TIN and Mobile Number
         function formatTIN(input) {
-            let value = input.value.replace(/\D/g, '').slice(0, 15); // Limitahan sa 15 digits
+            let value = input.value.replace(/\D/g, '').slice(0, 15);
 
             let formattedValue = '';
             if (value.length > 0) formattedValue += value.substring(0, 3);
             if (value.length > 3) formattedValue += '-' + value.substring(3, 6);
             if (value.length > 6) formattedValue += '-' + value.substring(6, 9);
-            if (value.length > 9) formattedValue += '-' + value.substring(9, 14); // Huling 5 digits
+            if (value.length > 9) formattedValue += '-' + value.substring(9, 14);
 
             input.value = formattedValue.trim();
 
-            // Mag-set ng custom validity message
             if (value.length < 9) {
                 input.setCustomValidity('Please enter eat least 9 digits.');
             } else {
@@ -434,7 +433,7 @@ function escape($string)
             input.value = formattedValue.trim();
         }
 
-        // Searching and Sorting table
+        // Searching
         document.getElementById('search').addEventListener('keyup', function() {
             const filter = this.value.toLowerCase();
             const rows = document.querySelectorAll('#supplierTableBody tr');
@@ -453,6 +452,7 @@ function escape($string)
             });
         });
 
+        // Sorting
         function sortTable(columnIndex) {
             const table = document.querySelector('.supplier-table');
             const tbody = table.querySelector('tbody');
@@ -486,8 +486,7 @@ function escape($string)
                 }
             });
         }
-    </script>
-    <script>
+
         function changeRecordsPerPage() {
             const recordsPerPage = document.getElementById('recordsPerPage').value;
             const currentPage = <?php echo $currentPage; ?>; // PHP variable to get current page

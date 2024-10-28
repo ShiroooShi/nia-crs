@@ -22,20 +22,20 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch overall count of records
-$countSql = "SELECT COUNT(*) AS total FROM crs_table"; // Adjust table name if necessary
+// Overall count of records
+$countSql = "SELECT COUNT(*) AS total FROM crs_table";
 $countResult = $conn->query($countSql);
 $countRow = $countResult->fetch_assoc();
 $overallCount = $countRow['total'];
 
-// Count records with Authorization Letter
-$autLetterSql = "SELECT COUNT(*) AS total FROM crs_table WHERE authletter = 'yes'"; // Adjust condition as needed
+// Count Authorization Letter
+$autLetterSql = "SELECT COUNT(*) AS total FROM crs_table WHERE authletter = 'yes'"; 
 $autLetterResult = $conn->query($autLetterSql);
 $autLetterRow = $autLetterResult->fetch_assoc();
 $autletterCount = $autLetterRow['total'];
 
-// Count records with Notarized SPA
-$spaSql = "SELECT COUNT(*) AS total FROM crs_table WHERE spa = 'yes'"; // Adjust condition as needed
+// Count Notarized SPA
+$spaSql = "SELECT COUNT(*) AS total FROM crs_table WHERE spa = 'yes'";
 $spaResult = $conn->query($spaSql);
 $spaRow = $spaResult->fetch_assoc();
 $spaCount = $spaRow['total'];
