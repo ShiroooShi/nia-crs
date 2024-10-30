@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            font-family: 'Cambria', serif;
         }
 
         .bg-img {
@@ -103,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             outline: none;
             color: white;
             font-size: 16px;
-            font-family: "Poppins", sans-serif;
             padding: 8px;
             border-radius: 5px;
         }
@@ -124,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #222;
             display: none;
             cursor: pointer;
-            font-family: "Poppins", sans-serif;
         }
 
         .pass-key:valid~.show {
@@ -144,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             letter-spacing: 1px;
             font-weight: 600;
             cursor: pointer;
-            font-family: "Montserrat", sans-serif;
         }
 
         .field input[type="submit"]:hover {
@@ -154,7 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login {
             color: white;
             margin: 20px 0;
-            font-family: "Poppins", sans-serif;
         }
 
         .logo {

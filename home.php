@@ -28,6 +28,7 @@ $overallCount = $row['total'];
             margin: 0;
             padding: 0;
             height: 100vh;
+            font-family: 'Cambria', serif;
         }
 
         .sidebar {
@@ -47,7 +48,6 @@ $overallCount = $row['total'];
         .sidebar h2 {
             color: black;
             text-align: center;
-            font-family: "Cambria", sans-serif;
             font-weight: bold;
             padding: 20px 0;
             font-size: 27px;
@@ -66,7 +66,6 @@ $overallCount = $row['total'];
         .sidebar a {
             color: black;
             text-decoration: none;
-            font-family: "Cambria", sans-serif;
             font-size: 20px;
             background-color: transparent;
             border-color: transparent;
@@ -86,7 +85,6 @@ $overallCount = $row['total'];
             border: none;
             border-radius: 20px;
             align-items: center;
-            font-family: "Poppins", sans-serif;
             font-size: 20px;
             transition: background-color 0.3s ease;
         }
@@ -96,8 +94,7 @@ $overallCount = $row['total'];
         }
 
         .header {
-            font-size: 36px;
-            font-family: "Cambria", sans-serif;
+            font-size: 45px;
             font-weight: bold;
             text-align: center;
             margin-bottom: 30px;
@@ -115,12 +112,10 @@ $overallCount = $row['total'];
 
         .card-title {
             font-size: 20px;
-            font-family: "Cambria", sans-serif;
             font-weight: 500;
         }
 
         .cart-text {
-            font-family: "Cambria", sans-serif;
             font-weight: bold;
         }
     </style>

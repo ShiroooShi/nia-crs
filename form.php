@@ -17,11 +17,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
             background-color: #f8f8f8;
             color: #333;
+            font-family: 'Cambria', serif;
         }
 
         h1 {
@@ -30,7 +30,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         h2 {
             font-size: 55px;
-            font-family: "Cambria", sans-serif;
             font-weight: bold;
         }
 
@@ -62,7 +61,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         .tabhead {
             color: black;
-            font-family: "Cambria", sans-serif;
         }
 
         .tabheader {
@@ -86,18 +84,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             width: 250px;
             height: 40px;
             border-radius: 10px;
-            font-family: "Cambria", sans-serif;
             background-color: transparent;
             color: black;
             border-color: black;
-        }
-
-        .form-label {
-            font-family: Cambria, serif;
-        }
-
-        .form-control {
-            font-family: Cambria, serif;
         }
 
         .text-right {
@@ -108,9 +97,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             border: 0px;
         }
 
-        .ftype {
-            font-family: Cambria, serif;
-        }
     </style>
 </head>
 <h2 class="mb-4" style="text-align: center;">CLAIMANT'S INFORMATION FORM</h2><br>

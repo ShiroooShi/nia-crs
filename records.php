@@ -48,6 +48,7 @@ if ($data === null) {
             display: flex;
             min-height: 100vh;
             overflow-x: hidden;
+            font-family: 'Cambria', serif;
         }
 
         .sidebar {
@@ -67,16 +68,6 @@ if ($data === null) {
         .sidebar img {
             width: 100px;
             vertical-align: middle;
-        }
-
-        .sidebar h2,
-        .sidebar a,
-        .header,
-        thead th,
-        .table,
-        .table td,
-        .btn-custom-add-record {
-            font-family: "Cambria", serif;
         }
 
         .sidebar h2 {
@@ -109,7 +100,6 @@ if ($data === null) {
             border: none;
             border-radius: 20px;
             align-items: center;
-            font-family: "Poppins", sans-serif;
             font-size: 20px;
             transition: background-color 0.3s ease;
         }
@@ -119,7 +109,7 @@ if ($data === null) {
         }
 
         .header {
-            font-size: 36px;
+            font-size: 45px;
             font-weight: bold;
             text-align: center;
             margin-bottom: 30px;
@@ -169,11 +159,21 @@ if ($data === null) {
             width: 200px;
             height: 40px;
             border-radius: 10px;
+            color: white;
         }
 
-        #editModal,
-        #editModal * {
-            font-family: "Cambria", serif !important;
+        .btn-custom-select {
+            width: auto;
+            height: 40px;
+            background-color: transparent;
+            color: black;
+            border-color: transparent;
+        }
+
+        .btn-custom-export {
+            width: auto;
+            height: 40px;
+            color: white;
         }
 
         #message {
@@ -269,9 +269,9 @@ if ($data === null) {
                 </ul>
             </nav>
             <div class="input-group-append ml-auto" style="margin-left: auto;">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#idRangeModal" style="border-radius: 2px;">Select Export</button>
+                <button class="btn btn-primary btn-custom-select" data-toggle="modal" data-target="#idRangeModal" style="border-radius: 5px;">Select Export</button>
                 <form action="export.php" method="POST">
-                    <button class="btn btn-danger" name="export_all" value="1" type="submit" style="border-radius: 2px;">Export All to PDF</button>
+                    <button class="btn btn-danger btn-custom-export" name="export_all" value="1" type="submit" style="border-radius: 5px;">Export All to PDF</button>
                 </form>
             </div>
         </div>
