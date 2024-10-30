@@ -162,19 +162,23 @@ if ($data === null) {
             color: white;
         }
 
-        .btn-custom-select {
+        .btn-custom-export-excel {
             width: auto;
             height: 40px;
-            background-color: transparent;
-            color: black;
+            background-color: #023020;
+            color: white;
             border-color: transparent;
         }
 
-        .btn-custom-export {
+        .btn-custom-export-pdf {
             width: auto;
             height: 40px;
+            background-color: #880808;
             color: white;
+            border-color: transparent;
         }
+
+
 
         #message {
             border-radius: 5px;
@@ -269,13 +273,15 @@ if ($data === null) {
                 </ul>
             </nav>
             <div class="input-group-append ml-auto" style="margin-left: auto;">
-                <button class="btn btn-primary btn-custom-select" data-toggle="modal" data-target="#idRangeModal" style="border-radius: 5px;">Select Export</button>
-                <form action="export.php" method="POST">
-                    <button class="btn btn-danger btn-custom-export" name="export_all" value="1" type="submit" style="border-radius: 5px;">Export All to PDF</button>
+                <form action="export_excel.php" method="POST">
+                    <button class="btn btn-success btn-custom-export-excel" name="export_excel" value="1" type="submit" style="border-radius: 5px;">Export to Excel</button>
+                </form>&nbsp;
+                <form action="export_pdf.php" method="POST">
+                    <button class="btn btn-danger btn-custom-export-pdf" name="export_all" value="1" type="submit" style="border-radius: 5px;">Export to PDF</button>
                 </form>
             </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive mt-2">
             <table class="table table-bordered supplier-table">
                 <thead>
                     <tr>
@@ -473,38 +479,6 @@ if ($data === null) {
             </ul>
         </nav>
     </div>
-
-    <!-- Export Modal -->
-    <form action="export.php" method="POST">
-        <div class="modal fade" id="idRangeModal" tabindex="-1" role="dialog" aria-labelledby="idRangeModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="idRangeModalLabel">Enter ID Range</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="idRangeForm" action="export.php" method="POST">
-                            <div class="form-group">
-                                <label for="startId">Start ID</label>
-                                <input type="number" class="form-control" id="startId" name="start_id" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="endId">End ID</label>
-                                <input type="number" class="form-control" id="endId" name="end_id" required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Export</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
