@@ -15,7 +15,103 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claimants Information Form</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="form.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            color: #4caf50;
+        }
+
+        h2 {
+            font-size: 55px;
+            font-family: "Cambria", sans-serif;
+            font-weight: bold;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px auto;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 2px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #71f79f;
+            color: white;
+        }
+
+        .headinput {
+            width: 34%;
+        }
+
+        .tabhead {
+            color: black;
+            font-family: "Cambria", sans-serif;
+        }
+
+        .tabheader {
+            height: 70px;
+        }
+
+        .rbutton {
+            width: 15px;
+        }
+
+        .invalid-feedback {
+            display: none;
+        }
+
+        .is-invalid+.invalid-feedback {
+            display: block;
+        }
+
+        .btn-custom-add-record,
+        .btn-custom-exit {
+            width: 250px;
+            height: 40px;
+            border-radius: 10px;
+            font-family: "Cambria", sans-serif;
+            background-color: transparent;
+            color: black;
+            border-color: black;
+        }
+
+        .form-label {
+            font-family: Cambria, serif;
+        }
+
+        .form-control {
+            font-family: Cambria, serif;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .tborder {
+            border: 0px;
+        }
+
+        .ftype {
+            font-family: Cambria, serif;
+        }
+    </style>
 </head>
 <h2 class="mb-4" style="text-align: center;">CLAIMANT'S INFORMATION FORM</h2><br>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
@@ -90,8 +186,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <option value="Barangay Clearance">Barangay Clearance</option>
                         <option value="Company ID">Company ID</option>
                         <option value="Driver`s License">Driver`s License</option>
-                        <option value="Government Employee`s ID">Government Employee`s ID</option>     
-                        <option value="GSIS ID">GSIS ID</option>                     
+                        <option value="Government Employee`s ID">Government Employee`s ID</option>
+                        <option value="GSIS ID">GSIS ID</option>
                         <option value="NBI Clearance">NBI Clearance</option>
                         <option value="PhilHealth ID">PhilHealth ID</option>
                         <option value="Philippine Identification Card">Philippine Identification Card</option>
@@ -250,13 +346,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function formatTIN(input) {
-        let value = input.value.replace(/\D/g, '').slice(0, 15); 
+        let value = input.value.replace(/\D/g, '').slice(0, 15);
 
         let formattedValue = '';
         if (value.length > 0) formattedValue += value.substring(0, 3);
         if (value.length > 3) formattedValue += '-' + value.substring(3, 6);
         if (value.length > 6) formattedValue += '-' + value.substring(6, 9);
-        if (value.length > 9) formattedValue += '-' + value.substring(9, 14); 
+        if (value.length > 9) formattedValue += '-' + value.substring(9, 14);
 
         input.value = formattedValue.trim();
 

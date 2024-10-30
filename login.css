@@ -158,3 +158,14 @@
   cursor: pointer;
 }
 
+.credit {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-size: 14px;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+}

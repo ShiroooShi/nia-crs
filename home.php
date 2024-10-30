@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-include 'fetch_data.php'; 
+include 'fetch_data.php';
 
 $query = "SELECT COUNT(*) AS total FROM crs_table";
 $result = $conn->query($query);
@@ -21,9 +21,98 @@ $overallCount = $row['total'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px;
+            background-color: #71f79f;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            color: black;
+            text-align: center;
+            font-family: "Cambria", sans-serif;
+            font-weight: bold;
+            padding: 20px 0;
+            font-size: 27px;
+        }
+
+        .sidebar img {
+            width: 100px;
+            vertical-align: middle;
+        }
+
+        .separator {
+            margin: 0 10px;
+            font-size: 30px;
+        }
+
+        .sidebar a {
+            color: black;
+            text-decoration: none;
+            font-family: "Cambria", sans-serif;
+            font-size: 20px;
+            background-color: transparent;
+            border-color: transparent;
+            border-radius: 5px;
+        }
+
+        .content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .logout {
+            margin-top: auto;
+            background-color: transparent;
+            border: none;
+            border-radius: 20px;
+            align-items: center;
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout:hover {
+            background-color: transparent;
+        }
+
+        .header {
+            font-size: 36px;
+            font-family: "Cambria", sans-serif;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .canvas {
+            max-width: 100%;
+            max-height: 300px;
+            margin: auto;
+        }
+
+        .row {
+            margin-bottom: 40px;
+        }
+
         .card-title {
             font-size: 20px;
             font-family: "Cambria", sans-serif;

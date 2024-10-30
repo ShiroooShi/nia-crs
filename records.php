@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include 'fetch_data.php';
 
-$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 50;
+$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 10;
 $totalRecords = count($suppliers);
 $totalPages = ceil($totalRecords / $recordsPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -22,6 +22,12 @@ function escape($string)
 {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
+
+$data = fetchData();
+
+if ($data === null) {
+    $data = []; // Handle the case where no data is returned
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +39,159 @@ function escape($string)
     <title>Records</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="records.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px;
+            background-color: #71f79f;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar img {
+            width: 100px;
+            vertical-align: middle;
+        }
+
+        .sidebar h2,
+        .sidebar a,
+        .header,
+        thead th,
+        .table,
+        .table td,
+        .btn-custom-add-record {
+            font-family: "Cambria", serif;
+        }
+
+        .sidebar h2 {
+            color: black;
+            text-align: left;
+            font-weight: bold;
+            padding: 20px 0;
+            font-size: 27px;
+        }
+
+        .sidebar a {
+            color: black;
+            text-decoration: none;
+            font-size: 20px;
+            background-color: transparent;
+            border-color: transparent;
+            border-radius: 5px;
+        }
+
+        .content {
+            flex-grow: 1;
+            margin-left: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .logout {
+            margin-top: auto;
+            background-color: transparent;
+            border: none;
+            border-radius: 20px;
+            align-items: center;
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout:hover {
+            background-color: transparent;
+        }
+
+        .header {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .supplier-table {
+            width: 100%;
+            table-layout: auto;
+        }
+
+        .supplier-table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .supplier-table tbody tr:nth-child(even) {
+            background-color: #e0e0e0;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        thead th {
+            background-color: #71f79f;
+            color: black;
+            position: relative;
+            padding: 20px;
+            text-transform: capitalize;
+        }
+
+        .table,
+        .table td {
+            border: none;
+        }
+
+        .btn-sort {
+            color: black;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .btn-action {
+            color: #71f79f;
+        }
+
+        .btn-custom-add-record {
+            width: 200px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        #editModal,
+        #editModal * {
+            font-family: "Cambria", serif !important;
+        }
+
+        #message {
+            border-radius: 5px;
+            padding: 15px;
+            transition: opacity 0.5s;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,7 +207,6 @@ function escape($string)
         </div>
         <a href="logout.php" class="list-group-item list-group-item-action text-danger logout">Logout</a>
     </div>
-
     <div class="content">
         <br><br>
         <h1 class="header">CLAIMANT'S OVERALL RECORDS</h1>
@@ -65,32 +222,57 @@ function escape($string)
                 <a href="form.php" class="btn btn-info btn-custom-add-record">✚&nbsp;Add Record</a>
             </div>
         </div>
-        <div class="input-group mb-1">
-            <label for="recordsPerPage" class="form-control col-sm-1">Show :</label>
-            <select id="recordsPerPage" class="form-control col-sm-1" onchange="changeRecordsPerPage()">
-                <option value="5" <?php echo $recordsPerPage == 5 ? 'selected' : ''; ?>>5</option>
-                <option value="10" <?php echo $recordsPerPage == 10 ? 'selected' : ''; ?>>10</option>
-                <option value="15" <?php echo $recordsPerPage == 15 ? 'selected' : ''; ?>>15</option>
-                <option value="20" <?php echo $recordsPerPage == 20 ? 'selected' : ''; ?>>20</option>
-                <option value="25" <?php echo $recordsPerPage == 25 ? 'selected' : ''; ?>>25</option>
-                <option value="30" <?php echo $recordsPerPage == 30 ? 'selected' : ''; ?>>30</option>
-                <option value="35" <?php echo $recordsPerPage == 35 ? 'selected' : ''; ?>>35</option>
-                <option value="40" <?php echo $recordsPerPage == 40 ? 'selected' : ''; ?>>40</option>
-                <option value="45" <?php echo $recordsPerPage == 45 ? 'selected' : ''; ?>>45</option>
-                <option value="50" <?php echo $recordsPerPage == 50 ? 'selected' : ''; ?>>50</option>
-                <option value="55" <?php echo $recordsPerPage == 55 ? 'selected' : ''; ?>>55</option>
-                <option value="60" <?php echo $recordsPerPage == 60 ? 'selected' : ''; ?>>60</option>
-                <option value="65" <?php echo $recordsPerPage == 65 ? 'selected' : ''; ?>>65</option>
-                <option value="70" <?php echo $recordsPerPage == 70 ? 'selected' : ''; ?>>70</option>
-                <option value="75" <?php echo $recordsPerPage == 75 ? 'selected' : ''; ?>>75</option>
-                <option value="80" <?php echo $recordsPerPage == 80 ? 'selected' : ''; ?>>80</option>
-                <option value="85" <?php echo $recordsPerPage == 85 ? 'selected' : ''; ?>>85</option>
-                <option value="90" <?php echo $recordsPerPage == 90 ? 'selected' : ''; ?>>90</option>
-                <option value="95" <?php echo $recordsPerPage == 95 ? 'selected' : ''; ?>>95</option>
-                <option value="100" <?php echo $recordsPerPage == 100 ? 'selected' : ''; ?>>100</option>
+        <div class="input-group" style="display: flex; align-items: center; width: 100%;">
+            <label for="recordsPerPage" class="form-control col-sm-1" style="margin: 0; width: 100px;">Show:</label>
+            <select id="recordsPerPage" class="form-control col-sm-1" style="width: 100px;" onchange="changeRecordsPerPage()">
+                <?php for ($value = 5; $value <= 100; $value += 5): ?>
+                    <option value="<?php echo $value; ?>" <?php echo $recordsPerPage == $value ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                <?php endfor; ?>
             </select>
-            <div class="input-group-append ml-auto">
-                <button class="btn btn-danger" onclick="exportToPDF()">Export to PDF</button>
+            <nav aria-label="Page navigation" style="margin-left: 20px;">
+                <ul class="pagination justify-content-center" style="margin: 0;">
+                    <?php if ($currentPage > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>">↞</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php
+                    $maxPagesToShow = 5;
+                    $startPage = max(1, $currentPage - 2);
+                    $endPage = min($totalPages, $startPage + $maxPagesToShow - 1);
+
+                    if ($endPage - $startPage < $maxPagesToShow - 1) {
+                        $startPage = max(1, $endPage - $maxPagesToShow + 1);
+                    }
+
+                    for ($i = $startPage; $i <= $endPage; $i++): ?>
+                        <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if ($endPage < $totalPages): ?>
+                        <li class="page-item">
+                            <span class="page-link">...</span>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $totalPages; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>"><?php echo $totalPages; ?></a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if ($currentPage < $totalPages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>">↠</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+            <div class="input-group-append ml-auto" style="margin-left: auto;">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#idRangeModal" style="border-radius: 2px;">Select Export</button>
+                <form action="export.php" method="POST">
+                    <button class="btn btn-danger" name="export_all" value="1" type="submit" style="border-radius: 2px;">Export All to PDF</button>
+                </form>
             </div>
         </div>
         <div class="table-responsive">
@@ -251,16 +433,78 @@ function escape($string)
             </table>
         </div>
         <br>
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <nav aria-label="Page navigation" style="margin-left: 20px;">
+            <ul class="pagination justify-content-center" style="margin: 0;">
+                <?php if ($currentPage > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>">↞</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php
+                $maxPagesToShow = 5;
+                $startPage = max(1, $currentPage - 2);
+                $endPage = min($totalPages, $startPage + $maxPagesToShow - 1);
+
+                if ($endPage - $startPage < $maxPagesToShow - 1) {
+                    $startPage = max(1, $endPage - $maxPagesToShow + 1);
+                }
+
+                for ($i = $startPage; $i <= $endPage; $i++): ?>
                     <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
                         <a class="page-link" href="?page=<?php echo $i; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
+
+                <?php if ($endPage < $totalPages): ?>
+                    <li class="page-item">
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo $totalPages; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>"><?php echo $totalPages; ?></a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($currentPage < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>&recordsPerPage=<?php echo $recordsPerPage; ?>">↠</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </nav>
     </div>
+
+    <!-- Export Modal -->
+    <form action="export.php" method="POST">
+        <div class="modal fade" id="idRangeModal" tabindex="-1" role="dialog" aria-labelledby="idRangeModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="idRangeModalLabel">Enter ID Range</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="idRangeForm" action="export.php" method="POST">
+                            <div class="form-group">
+                                <label for="startId">Start ID</label>
+                                <input type="number" class="form-control" id="startId" name="start_id" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endId">End ID</label>
+                                <input type="number" class="form-control" id="endId" name="end_id" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Export</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -334,7 +578,10 @@ function escape($string)
                                 <option value="No">No</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Record</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update Record</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -465,8 +712,19 @@ function escape($string)
             tbody.dataset.sortDirection = isAscending ? 'desc' : 'asc';
 
             rows.sort((rowA, rowB) => {
-                const cellB = rowA.children[columnIndex].innerText.toLowerCase();
-                const cellA = rowB.children[columnIndex].innerText.toLowerCase();
+                const cellB = rowA.children[columnIndex].innerText.trim();
+                const cellA = rowB.children[columnIndex].innerText.trim();
+
+                const numA = parseFloat(cellA);
+                const numB = parseFloat(cellB);
+
+                if (cellA === '' && cellB === '') return 0;
+                if (cellA === '') return isAscending ? 1 : -1;
+                if (cellB === '') return isAscending ? -1 : 1;
+
+                if (!isNaN(numA) && !isNaN(numB)) {
+                    return isAscending ? numA - numB : numB - numA;
+                }
 
                 if (cellA < cellB) return isAscending ? -1 : 1;
                 if (cellA > cellB) return isAscending ? 1 : -1;
@@ -492,7 +750,7 @@ function escape($string)
 
         function changeRecordsPerPage() {
             const recordsPerPage = document.getElementById('recordsPerPage').value;
-            const currentPage = <?php echo $currentPage; ?>; // PHP variable to get current page
+            const currentPage = <?php echo $currentPage; ?>;
             window.location.href = `?page=${currentPage}&recordsPerPage=${recordsPerPage}`;
         }
     </script>
