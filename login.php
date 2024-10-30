@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .bg-img {
-            background: url("images/background.jpg");
+            background: url("images/background1.jpg");
             height: 100vh;
             background-size: cover;
             background-position: center;

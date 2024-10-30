@@ -114,10 +114,6 @@ $overallCount = $row['total'];
             font-size: 20px;
             font-weight: 500;
         }
-
-        .cart-text {
-            font-weight: bold;
-        }
     </style>
 </head>
 
