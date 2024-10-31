@@ -26,7 +26,7 @@ function escape($string)
 $data = fetchData();
 
 if ($data === null) {
-    $data = []; // Handle the case where no data is returned
+    $data = [];
 }
 ?>
 
@@ -177,8 +177,6 @@ if ($data === null) {
             color: white;
             border-color: transparent;
         }
-
-
 
         #message {
             border-radius: 5px;

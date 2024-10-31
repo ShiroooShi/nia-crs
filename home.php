@@ -139,7 +139,11 @@ $overallCount = $row['total'];
                 <div class="card border-default shadow" style="width: 80%;">
                     <br>
                     <div class="card-body text-center">
-                        <h5 class="card-title">Overall Records</h5>
+                        <h5 class="card-title">
+                            <a href="records.php" style="text-decoration: none; color: red;">
+                                Overall Records
+                            </a>
+                        </h5>
                         <h5 class="card-text" id="overallCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
                             <?php echo $overallCount; ?><br><br>
                         </h5>
