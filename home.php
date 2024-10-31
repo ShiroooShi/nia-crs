@@ -19,7 +19,8 @@ $overallCount = $row['total'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <link rel="icon" href="images/nia.png" type="image/x-icon">
+    <title>Claimant`s System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -200,8 +201,8 @@ $overallCount = $row['total'];
                 datasets: [{
                     label: 'Overall Records Added Per Month',
                     data: monthData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: '#71f79f',
+                    borderColor: 'green',
                     borderWidth: 1
                 }]
             },
@@ -224,14 +225,14 @@ $overallCount = $row['total'];
                     label: 'Count',
                     data: [<?php echo $autletterCount; ?>, <?php echo $spaCount; ?>],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
+                        '#72A0C1',
+                        '#ED2939'
                     ],
                     borderColor: [
                         'rgba(75, 192, 192, 1)',
                         'rgba(255, 99, 132, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {
