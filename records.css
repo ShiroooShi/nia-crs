@@ -2,6 +2,7 @@ body {
   display: flex;
   min-height: 100vh;
   overflow-x: hidden;
+  font-family: "Cambria", serif;
 }
 
 .sidebar {
@@ -23,16 +24,6 @@ body {
   vertical-align: middle;
 }
 
-.sidebar h2,
-.sidebar a,
-.header,
-thead th,
-.table,
-.table td,
-.btn-custom-add-record {
-  font-family: "Cambria", serif;
-}
-
 .sidebar h2 {
   color: black;
   text-align: left;
@@ -52,8 +43,9 @@ thead th,
 
 .content {
   flex-grow: 1;
-  margin-left: 320px;
+  margin-left: 300px;
   overflow-y: auto;
+  padding: 10px;
 }
 
 .logout {
@@ -62,7 +54,6 @@ thead th,
   border: none;
   border-radius: 20px;
   align-items: center;
-  font-family: "Poppins", sans-serif;
   font-size: 20px;
   transition: background-color 0.3s ease;
 }
@@ -72,7 +63,7 @@ thead th,
 }
 
 .header {
-  font-size: 36px;
+  font-size: 45px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 30px;
@@ -122,11 +113,23 @@ thead th {
   width: 200px;
   height: 40px;
   border-radius: 10px;
+  color: white;
 }
 
-#editModal,
-#editModal * {
-  font-family: "Cambria", serif !important;
+.btn-custom-export-excel {
+  width: auto;
+  height: 40px;
+  background-color: #023020;
+  color: white;
+  border-color: transparent;
+}
+
+.btn-custom-export-pdf {
+  width: auto;
+  height: 40px;
+  background-color: #880808;
+  color: white;
+  border-color: transparent;
 }
 
 #message {

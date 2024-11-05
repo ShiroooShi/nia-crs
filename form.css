@@ -1,9 +1,9 @@
 body {
-  font-family: Arial, sans-serif;
   text-align: center;
   margin: 50px;
   background-color: #f8f8f8;
   color: #333;
+  font-family: "Cambria", serif;
 }
 
 h1 {
@@ -12,7 +12,6 @@ h1 {
 
 h2 {
   font-size: 55px;
-  font-family: "Cambria", sans-serif;
   font-weight: bold;
 }
 
@@ -22,7 +21,7 @@ h3 {
 
 table {
   border-collapse: collapse;
-  width:  100%;
+  width: 100%;
   margin: 10px auto;
 }
 
@@ -44,7 +43,6 @@ th {
 
 .tabhead {
   color: black;
-  font-family: "Cambria", sans-serif;
 }
 
 .tabheader {
@@ -68,18 +66,9 @@ th {
   width: 250px;
   height: 40px;
   border-radius: 10px;
-  font-family: "Cambria", sans-serif;
   background-color: transparent;
   color: black;
   border-color: black;
-}
-
-.form-label {
-  font-family: Cambria, serif;
-}
-
-.form-control {
-  font-family: Cambria, serif;
 }
 
 .text-right {
@@ -88,8 +77,4 @@ th {
 
 .tborder {
   border: 0px;
-}
-
-.ftype {
-  font-family: Cambria, serif;
 }
