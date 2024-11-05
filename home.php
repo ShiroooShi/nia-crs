@@ -12,7 +12,36 @@ $query = "SELECT COUNT(*) AS total FROM crs_table";
 $result = $conn->query($query);
 $row = $result->fetch_assoc();
 $overallCount = $row['total'];
+
+// Query for records with Authorization Letter
+$queryAutLetter = "SELECT COUNT(*) AS autletterCount FROM crs_table WHERE authletter = 'Yes'";
+$resultAutLetter = $conn->query($queryAutLetter);
+$rowAutLetter = $resultAutLetter->fetch_assoc();
+$autletterCount = $rowAutLetter['autletterCount']; 
+
+// Query for records with Notarized SPA
+$querySPA = "SELECT COUNT(*) AS spaCount FROM crs_table WHERE spa = 'Yes'";
+$resultSPA = $conn->query($querySPA);
+$rowSPA = $resultSPA->fetch_assoc();
+$spaCount = $rowSPA['spaCount'];
+
+// Query for records with both Authorization Letter and Notarized SPA
+$queryBoth = "SELECT id FROM crs_table WHERE authletter = 'Yes' AND spa = 'Yes'";
+$resultBoth = $conn->query($queryBoth);
+
+$bothIds = [];
+if ($resultBoth) {
+    while ($row = $resultBoth->fetch_assoc()) {
+        $bothIds[] = $row['id'];
+    }
+} else {
+    echo "Query failed: " . $conn->error;
+}
+
+$bothCount = count($bothIds);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -220,17 +249,23 @@ $overallCount = $row['total'];
         const countAuthletterAndSPAChart = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ['With Authorization Letter', 'With Notarized SPA'],
+                labels: ['With Authletter', 'With SPA', 'Both With Auth and SPA'],
                 datasets: [{
-                    label: 'Count',
-                    data: [<?php echo $autletterCount; ?>, <?php echo $spaCount; ?>],
+                    label: 'Record for Authorized Letter and Notarized SPA',
+                    data: [
+                        <?php echo $autletterCount; ?>,
+                        <?php echo $spaCount; ?>,
+                        <?php echo $bothCount; ?>
+                    ],
                     backgroundColor: [
                         '#72A0C1',
-                        '#ED2939'
+                        '#4CAF50',
+                        '#ED2939',
                     ],
                     borderColor: [
                         'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)'
+                        '#71f79f',
+                        'rgba(255, 99, 132, 1)',
                     ],
                     borderWidth: 2
                 }]
