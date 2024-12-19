@@ -17,7 +17,7 @@ $overallCount = $row['total'];
 $queryAutLetter = "SELECT COUNT(*) AS autletterCount FROM crs_table WHERE authletter = 'Yes'";
 $resultAutLetter = $conn->query($queryAutLetter);
 $rowAutLetter = $resultAutLetter->fetch_assoc();
-$autletterCount = $rowAutLetter['autletterCount']; 
+$autletterCount = $rowAutLetter['autletterCount'];
 
 // Query for records with Notarized SPA
 $querySPA = "SELECT COUNT(*) AS spaCount FROM crs_table WHERE spa = 'Yes'";
@@ -92,7 +92,7 @@ $bothCount = count($bothIds);
                 <div class="card border-default shadow" style="width: 80%;">
                     <div class="card-body text-center">
                         <br>
-                        <h5 class="card-title">With Authorized Letter</h5>
+                        <h5 class="card-title" style="text-decoration: none; color: #72A0C1;">With Authorized Letter</h5>
                         <h5 class="card-text" id="autletterCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
                             <?php echo $autletterCount; ?><br><br>
                         </h5>
@@ -103,7 +103,7 @@ $bothCount = count($bothIds);
                 <div class="card border-default shadow" style="width: 80%;">
                     <div class="card-body text-center">
                         <br>
-                        <h5 class="card-title">With Notarized (SPA)</h5>
+                        <h5 class="card-title" style="text-decoration: none; color: #4CAF50;">With Notarized (SPA)</h5>
                         <h5 class="card-text" id="spaCount" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
                             <?php echo $spaCount; ?><br><br>
                         </h5>

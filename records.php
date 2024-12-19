@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include 'fetch_data.php';
 
-$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 10;
+$recordsPerPage = isset($_GET['recordsPerPage']) ? (int)$_GET['recordsPerPage'] : 999;
 $totalRecords = count($suppliers);
 $totalPages = ceil($totalRecords / $recordsPerPage);
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -78,7 +78,7 @@ if ($data === null) {
         <div class="input-group" style="display: flex; align-items: center; width: 100%;">
             <label for="recordsPerPage" class="form-control col-sm-1" style="margin: 0; width: 100px;">Show:</label>
             <select id="recordsPerPage" class="form-control col-sm-1" style="width: 100px;" onchange="changeRecordsPerPage()">
-                <?php for ($value = 5; $value <= 100; $value += 5): ?>
+                <?php for ($value = 5; $value <= 500; $value += 5): ?>
                     <option value="<?php echo $value; ?>" <?php echo $recordsPerPage == $value ? 'selected' : ''; ?>><?php echo $value; ?></option>
                 <?php endfor; ?>
             </select>
@@ -253,9 +253,17 @@ if ($data === null) {
                             <td><?php echo escape($supplier['company_address']); ?></td>
                             <td><?php echo escape($supplier['tin']); ?></td>
                             <td><?php echo escape($supplier['tax_type']); ?></td>
-                            <td><?php echo escape($supplier['mobile_number']); ?></td>
+                            <td>
+                                <a href="tel:<?php echo escape($supplier['mobile_number']); ?>">
+                                    <?php echo escape($supplier['mobile_number']); ?>
+                                </a>
+                            </td>
                             <td><?php echo escape($supplier['telephone_number']); ?></td>
-                            <td><?php echo escape($supplier['email_address']); ?></td>
+                            <td>
+                                <a href="mailto:<?php echo escape($supplier['email_address']); ?>">
+                                    <?php echo escape($supplier['email_address']); ?>
+                                </a>
+                            </td>
                             <td><?php echo escape($supplier['authorized_representative']); ?></td>
                             <td><?php echo $supplier['authletter'] === 'Yes' ? 'Yes' : ''; ?></td>
                             <td><?php echo escape($supplier['id_presented']); ?></td>
