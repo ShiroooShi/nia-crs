@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Validate credentials
-    if ($username === 'admin' && $password === 'admin123') {
+    if ($username === 'admin' && $password === 'pimocashier') {
         $_SESSION['loggedin'] = true;
         header('Location: home.php');
         exit;
